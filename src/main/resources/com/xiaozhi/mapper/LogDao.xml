@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaozhi.dao.LogDao">
+
+    <resultMap type="com.xiaozhi.entity.Log" id="LogMap">
+        <result property="id" column="ID" jdbcType="VARCHAR"/>
+        <result property="username" column="USERNAME" jdbcType="VARCHAR"/>
+        <result property="datetime" column="DATETIME" jdbcType="OTHER"/>
+        <result property="options" column="OPTIONS" jdbcType="VARCHAR"/>
+        <result property="status" column="STATUS" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="LogMap">
+        select
+          ID, USERNAME, DATETIME, OPTIONS, STATUS
+        from xiaozhi.log
+        where ID = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="LogMap">
+        select
+          ID, USERNAME, DATETIME, OPTIONS, STATUS
+        from xiaozhi.log
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="LogMap">
+        select
+        ID, USERNAME, DATETIME, OPTIONS, STATUS
+        from xiaozhi.log
+        <where>
+            <if test="id != null and id != ''">
+                and ID = #{id}
+            </if>
+            <if test="username != null and username != ''">
+                and USERNAME = #{username}
+            </if>
+            <if test="datetime != null">
+                and DATETIME = #{datetime}
+            </if>
+            <if test="options != null and options != ''">
+                and OPTIONS = #{options}
+            </if>
+            <if test="status != null and status != ''">
+                and STATUS = #{status}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="" useGeneratedKeys="true">
+        insert into xiaozhi.log(ID, USERNAME, DATETIME, OPTIONS, STATUS)
+        values (#{id}, #{username}, #{datetime}, #{options}, #{status})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="" useGeneratedKeys="true">
+        insert into xiaozhi.log(ID, USERNAME, DATETIME, OPTIONS, STATUS)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.username}, #{entity.datetime}, #{entity.options}, #{entity.status})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="" useGeneratedKeys="true">
+        insert into xiaozhi.log(ID, USERNAME, DATETIME, OPTIONS, STATUS)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.id}, #{entity.username}, #{entity.datetime}, #{entity.options}, #{entity.status})
+        </foreach>
+        on duplicate key update
+        ID = values(ID) , USERNAME = values(USERNAME) , DATETIME = values(DATETIME) , OPTIONS = values(OPTIONS) , STATUS
+        = values(STATUS)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update xiaozhi.log
+        <set>
+            <if test="id != null and id != ''">
+                ID = #{id},
+            </if>
+            <if test="username != null and username != ''">
+                USERNAME = #{username},
+            </if>
+            <if test="datetime != null">
+                DATETIME = #{datetime},
+            </if>
+            <if test="options != null and options != ''">
+                OPTIONS = #{options},
+            </if>
+            <if test="status != null and status != ''">
+                STATUS = #{status},
+            </if>
+        </set>
+        where ID = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from xiaozhi.log where ID = #{id}
+    </delete>
+
+</mapper>

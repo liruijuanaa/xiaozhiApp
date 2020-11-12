@@ -1,0 +1,25 @@
+spring:
+  mvc:
+    view:
+      prefix: /
+      suffix: .jsp
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    url: jdbc:mysql://localhost:3306/xiaozhi?serverTimezone=UTC
+    driver-class-name:  com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+  servlet:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 100MB
+server:
+  servlet:
+    jsp:
+      init-parameters:
+        development: true
+    context-path: /xiaozhi
+  port: 9090
+mybatis:
+  mapper-locations: classpath:com/xiaozhi/mapper/*.xml
+  type-aliases-package: com.xiaozhi.entity
