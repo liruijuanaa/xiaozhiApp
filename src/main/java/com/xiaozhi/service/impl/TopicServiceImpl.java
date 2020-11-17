@@ -3,11 +3,13 @@ package com.xiaozhi.service.impl;
 import com.xiaozhi.dao.TopicDao;
 import com.xiaozhi.entity.Topic;
 import com.xiaozhi.service.TopicService;
+import com.xiaozhi.vo.MyQuizVO;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * (Topic)表服务实现类
@@ -52,7 +54,12 @@ public class TopicServiceImpl implements TopicService {
      * @return 实例对象
      */
     @Override
-    public Topic insert(Topic topic) {
+    public Topic insert(String title) {
+        Topic topic=new Topic();
+        topic.setId(UUID.randomUUID().toString());
+        topic.setTitle(title);
+        topic.setComment(0);
+        topic.setPrise(0);
         this.topicDao.insert(topic);
         return topic;
     }
@@ -65,8 +72,11 @@ public class TopicServiceImpl implements TopicService {
      */
     @Override
     public Topic update(Topic topic) {
+        Integer prise = topic.getPrise();
+        prise++;
+        topic.setPrise(prise);
         this.topicDao.update(topic);
-        return this.queryById(topic.getId());
+        return topic;
     }
 
     /**
@@ -83,5 +93,11 @@ public class TopicServiceImpl implements TopicService {
     @Override
     public List<Topic> queryHot() {
         return this.topicDao.queryHot();
+    }
+
+    @Override
+    public int insertQuiz(MyQuizVO quizVO) {
+        int i = this.topicDao.insertQuiz(quizVO);
+        return i;
     }
 }

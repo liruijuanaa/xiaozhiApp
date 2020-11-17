@@ -33,6 +33,8 @@ public class ShiroFilter {
         //map.put("/**","anon"); //anon   过滤器的简称  匿名过滤器  不用认证都可以访问
         map.put("/**","authc");     //认证过滤器  只有认证成功才能访问的资源
         map.put("/user/login","anon");
+        map.put("/regist.jsp","anon");
+        map.put("/user/addUser","anon");
         map.put("/style/**","anon");
 //        map.put("/login.jsp","anon");
         //设置过滤器链

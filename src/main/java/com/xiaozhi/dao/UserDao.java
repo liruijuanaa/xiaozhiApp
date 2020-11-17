@@ -1,6 +1,8 @@
 package com.xiaozhi.dao;
 
 import com.xiaozhi.entity.User;
+import com.xiaozhi.vo.AttentionVO;
+import com.xiaozhi.vo.MyQuizVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -83,4 +85,18 @@ public interface UserDao {
      *
      * */
     User queryByName(String username);
+
+    int insertAttention(AttentionVO attentionVO);
+
+    //取消关注
+    int delAttention(@Param("user_id") String user_id,@Param("topic_id") String topic_id);
+
+    //查询关注问题
+    List<AttentionVO> queryAttention(String id);
+
+    //查询发表问题
+    List<MyQuizVO> queryQuiz(String id);
+
+    //删除发表
+    int delQuiz(@Param("user_id") String user_id,@Param("topic_id") String topic_id);
 }

@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Comment)表服务实现类
@@ -42,8 +44,34 @@ public class CommentServiceImpl implements CommentService {
      * @return 对象列表
      */
     @Override
-    public List<Comment> queryAllByLimit(int offset, int limit) {
-        return this.commentDao.queryAllByLimit(offset, limit);
+    public Map<String, Object> queryAllByLimit(int rows, int page,String id) {
+        int start = (page-1) * rows;
+        List<Comment> comments = commentDao.queryAllByLimit(start, rows, id);
+        int i = queryNum();
+        System.out.println(i);
+        int pageCount = i % rows == 0 ? i / rows : i / rows + 1;
+        /*
+         * 1. 计算起始下标
+         * 2. 计算总页数
+         *
+         * page: 当前页
+         * rows: 查询到的数据
+         * total: 总页数
+         * records: 总条数
+         * */
+        Map<String, Object> map = new HashMap<>();
+        map.put("page", page);
+        map.put("rows", comments);
+        map.put("records", i);
+        map.put("total", pageCount);
+//        List<Category> categories = categoryDao.queryByLevels("2");
+//        map.put("twoClass", categories);
+        return map;
+    }
+
+    @Override
+    public int queryNum() {
+        return this.commentDao.queryNum();
     }
 
     /**
@@ -90,5 +118,6 @@ public class CommentServiceImpl implements CommentService {
 
         return this.commentDao.queryComment(id,limit);
     }
+
 
 }

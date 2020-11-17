@@ -5,7 +5,9 @@ import com.xiaozhi.dao.TopicDao;
 import com.xiaozhi.dao.UserDao;
 import com.xiaozhi.entity.Topic;
 import com.xiaozhi.entity.User;
+import com.xiaozhi.service.TopicService;
 import com.xiaozhi.vo.CommentVO;
+import com.xiaozhi.vo.MyQuizVO;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,9 @@ class XiaozhiApplicationTests {
 
     @Autowired
     private TopicDao topicDao;
+
+    @Autowired
+    private TopicService topicService;
 
     @Autowired
     private CommentDao commentDao;
@@ -61,5 +66,10 @@ class XiaozhiApplicationTests {
 //        comment++;
 //        this.topicDao.update(topic);
         log.info("---");
+//        Topic cc = topicService.insert("北京2");
+//        System.out.println(cc);
+        MyQuizVO quizVO=new MyQuizVO("111","1111");
+        int i = topicService.insertQuiz(quizVO);
+        System.out.println(i);
     }
 }

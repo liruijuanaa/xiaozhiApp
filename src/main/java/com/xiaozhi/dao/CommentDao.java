@@ -29,7 +29,7 @@ public interface CommentDao {
      * @param limit  查询条数
      * @return 对象列表
      */
-    List<Comment> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
+    List<Comment> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit, @Param("id") String id);
 
 
     /**
@@ -81,5 +81,5 @@ public interface CommentDao {
     int deleteById(String id);
     List<CommentVO> queryComment(String id,Integer limit);
 
-
+    int queryNum();
 }

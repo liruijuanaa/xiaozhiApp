@@ -13,15 +13,12 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>登录</title>
     <!--引入css文件-->
-    <link rel="stylesheet" type="text/css" href="${path}/style/bootstrap/css/bootstrap.css"/>
-<%--    <link rel="stylesheet" type="text/css" href="${path}/css/style.min.css"/>--%>
-<%--    <link rel="stylesheet" type="text/css"--%>
-<%--          href="${pageContext.request.contextPath }/css/style.css" />--%>
-<%--    <script src="${path}/js/scripts.js"></script>--%>
-    <script src="${path}/style/bootstrap/js/jquery.min.js"></script>
-    <script src="${path}/style/bootstrap/js/bootstrap.min.js"></script>
+    <script src="${path}/style/js/jquery-3.3.1.min.js"></script>
     <script src="${path}/style/js/jquery.backstretch.min.js"></script>
     <script src="${path}/style/js/jquery.validate.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="${path}/style/css/bootstrap.css"/>
+
+    <script src="${path}/style/js/bootstrap.min.js"></script>
     <script>
         $(function (){
             //表单验证
@@ -82,8 +79,8 @@
 
 
                     <p class="text-muted text-center"><a href="IdeaProjects/xiaozhiApp/src/main/webapp/login.jsp#">
-                        <small>忘记密码了？</small>
-                    </a> | <a href="#">注册一个新账号</a>
+
+                    </a> | <a href="${path}/regist.jsp">注册一个新账号</a>
                     </p>
 
                 </form>

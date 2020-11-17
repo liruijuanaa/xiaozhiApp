@@ -31,9 +31,11 @@
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="CommentMap">
-        select
+        select c.ID,c.CONTENT,c.USER_ID,c.TOPIC_ID,c.PRISE,u.USERNAME,u.PHOTO
           ID, CONTENT, USER_ID, TOPIC_ID, PRISE
-        from xiaozhi.comment
+        from xiaozhi.topic t inner join xiaozhi.comment c
+            on t.ID=c.TOPIC_ID
+            where t.ID=#{id}
         limit #{offset}, #{limit}
     </select>
 
@@ -112,6 +114,11 @@
     <!--通过主键删除-->
     <delete id="deleteById">
         delete from xiaozhi.comment where ID= #{id}
+    </delete>
+
+    <!--查询总条数-->
+    <delete id="queryNum">
+        select count(id) from xiaozhi.comment
     </delete>
 
 </mapper>

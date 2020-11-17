@@ -3,6 +3,8 @@ package com.xiaozhi.service.impl;
 import com.xiaozhi.dao.UserDao;
 import com.xiaozhi.entity.User;
 import com.xiaozhi.service.UserService;
+import com.xiaozhi.vo.AttentionVO;
+import com.xiaozhi.vo.MyQuizVO;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * (User)表服务实现类
@@ -70,6 +73,7 @@ public class UserServiceImpl implements UserService {
         String password = user.getPassword();
         Md5Hash md5Hash=new Md5Hash(password,"abcd",1024);
         user.setPassword(md5Hash.toString());
+        user.setId(UUID.randomUUID().toString());
         this.userDao.insert(user);
         return user;
     }
@@ -132,5 +136,30 @@ public class UserServiceImpl implements UserService {
         }
 
         return map;
+    }
+
+    @Override
+    public int insertAttention(AttentionVO attentionVO) {
+        return this.userDao.insertAttention(attentionVO);
+    }
+
+    @Override
+    public int delAttention(String user_id,String topic_id) {
+        return this.userDao.delAttention(user_id,topic_id);
+    }
+
+    @Override
+    public List<AttentionVO> queryAttention(String id) {
+        return this.userDao.queryAttention(id);
+    }
+
+    @Override
+    public List<MyQuizVO> queryQuiz(String id) {
+        return this.userDao.queryQuiz(id);
+    }
+
+    @Override
+    public int delQuiz(String user_id, String topic_id) {
+        return this.userDao.delQuiz(user_id,topic_id);
     }
 }

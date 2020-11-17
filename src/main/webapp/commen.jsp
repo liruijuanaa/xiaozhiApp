@@ -13,11 +13,12 @@
     <title>回答问题</title>
     <!--引入css文件-->
 
-    <link rel="stylesheet" type="text/css" href="${path}/style/bootstrap/css/bootstrap.css"/>
-    <script src="${path}/style/bootstrap/js/jquery.min.js"></script>
-    <script src="${path}/style/bootstrap/js/bootstrap.min.js"></script>
+    <script src="${path}/style/js/jquery-3.3.1.min.js"></script>
     <script src="${path}/style/js/jquery.backstretch.min.js"></script>
     <script src="${path}/style/js/jquery.validate.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="${path}/style/css/bootstrap.css"/>
+
+    <script src="${path}/style/js/bootstrap.min.js"></script>
     <script>
 
         $(function (){
@@ -27,6 +28,23 @@
             // var ii = sessionStorage.getItem("id");
             console.log("iii"+ii);
             console.log(splitElement);
+
+            var u_id = sessionStorage.getItem("id")
+            console.log("u_id"+u_id);
+
+            $.ajax({
+                url:"${path}/user/selectOne",
+                dataType:"JSON",
+                data:{id:u_id},
+                type:"post",
+                method:"post",
+                success:function (data){
+
+                    console.log(data)
+                    var $photoimg="欢迎 "+data.username+"  <img src=\"${path}"+data.photo+"\" class=\"img-circle\" alt=\"\" width=\"30px\" height=\"30px\"></a></li>";
+                    $("#photoDiv").append($photoimg);
+                }
+            });
             $.ajax({
                 url:"${path}/topic/selectOne",
                 dataType:"json",
@@ -38,15 +56,14 @@
                     console.log(data)
                     var $nonice = $("#nonice");
                     var $con="<h3>"+data.title+"</h3>\n" +
-                        "                <button type=\"button\" class=\"btn btn-primary\">关注问题</button>\n" +
+
                         "                <div class=\"page-header\">\n" +
                         "                    "+data.comment+"条评论\n" +
                         "                </div>";
                     $nonice.append($con);
 
                     var $topicfooter = $("#topicfooter");
-                    var $confoot="<a href=\"\"><span class=\"glyphicon glyphicon-thumbs-up\"></span>"+data.prise+"赞</a>\n" +
-                        "                &nbsp;&nbsp;\n" +
+                    var $confoot=
                         "                <a href=\"\"><span class=\"glyphicon glyphicon-star\"></span>&nbsp;收藏</a>";
                     $topicfooter.append($confoot)
 
@@ -71,7 +88,7 @@
                                     "                                <p>"+msg.content+"</p>\n" +
                                     "                            </div>";
                                 var $cctr=" <div class=\"panel-footer\" style=\"background-color: white;\">\n" +
-                                    "                                <a id=\"updatePrise\"  href=\"${path}/comment/updateComment?id="+msg.id+"\" style=\"color:gray;\"><span class=\"glyphicon glyphicon-thumbs-up\" ></span>"+msg.prise+"赞</a>\n" +
+                                    "                                <a id=\"updatePrise\"  href=\"${path}/comment/updateComment?id="+msg.id+"&topid="+splitElement+"\" style=\"color:gray;\"><span class=\"glyphicon glyphicon-thumbs-up\" ></span>"+msg.prise+"赞</a>\n" +
                                     "                                &nbsp;&nbsp;\n" +
                                     "                                <a href=\"\" style=\"color:gray;\"  ><span class=\"glyphicon glyphicon-comment\"></span>&nbsp;查看回复</a>\n" +
                                     "                            </div>\n" +
@@ -107,10 +124,59 @@
                     dataType: "text",
                     data: $("#submitForm").serialize(),
                     success:function (data){
-                        alert("aaa")
                         location.href="${path}/commen.jsp?id="+splitElement+"";
                     }
                 })
+            })
+
+            $.ajax({
+                url:"${path}/user/queryAtten",
+                dataType:"json",
+                type:"post",
+                data:{id:ii},
+                success:function (data){
+                    // console.log(data)
+                    $.each(data,function (index,atten){
+                        console.log(atten.topic_id)
+                       if (splitElement==atten.topic_id){
+                           $("#adda").replaceWith(" <button type=\"button\" class=\"btn btn-primary\" id=\"dela\">取消关注</button>")
+                       }
+                    })
+                }
+            })
+            $("#adda").click(function (){
+                $.ajax({
+                    url:"${path}/user/addAtten",
+                    type:"post",
+                    method:"post",
+                    dataType:"json",
+                    data:{user_id:u_id,topic_id:splitElement},
+                    success:function (data){
+                        $("#adda").replaceWith(" <button type=\"button\" class=\"btn btn-primary\" id=\"dela\">取消关注</button>")
+                    }
+                })
+            })
+            //取消关注
+            $("#nonice").on('click','#dela',function (){
+                $.ajax({
+                    url:"${path}/user/delAtten",
+                    type:"post",
+                    method:"post",
+                    dataType:"json",
+                    data:{user_id:u_id,topic_id: splitElement},
+                    success:function (data){
+                        // $("#adda").text("取消关注")
+                        $("#dela").replaceWith(" <button type=\"button\" class=\"btn btn-primary\" id=\"adda\">关注问题</button>")
+                        // $("#adda").html()
+                    }
+                })
+            })
+
+            $("#myAttention").click(function (){
+                location.href = "${path}/attention.jsp"
+            })
+            $("#myQuiz").click(function (){
+                location.href = "${path}/myPublish.jsp"
             })
         })
     </script>
@@ -139,9 +205,9 @@
                     </div>
                     <button type="submit" class="   btn btn-default">搜索</button>
                 </form>
-                <button type="button" class="navbar-btn btn btn-primary">提问</button>
-                <div class="navbar-btn navbar-right" style="background-color: transparent">
-                    欢迎 小知&nbsp;<img src="IdeaProjects/xiaozhiApp/src/main/webapp/style/img/pkq07.jpg" class="img-circle" alt="" width="30px" height="30px"></a></li>
+                <a href="${path}/quiz.jsp" type="button" class="navbar-btn btn btn-primary">提问</a>
+                <div class="navbar-btn navbar-right" style="background-color: transparent" id="photoDiv">
+
                 </div>
 
             </div>
@@ -152,7 +218,7 @@
 
         <div class="panel">
             <div class="panel-heading text-danger" id="nonice">
-
+                <button type="button" class="btn btn-primary" id="adda">关注问题</button>
             </div>
             <div class="panel-body" id="panelList">
 
@@ -176,8 +242,8 @@
             <li class="list-group-item">写回答</li>
             <li class="list-group-item">我的草稿</li>
             <li class="list-group-item">我的收藏</li>
-            <li class="list-group-item">我关注的问题</li>
-            <li class="list-group-item">我的邀请</li>
+            <button class="list-group-item" id="myAttention">我关注的问题</button>
+            <button id="myQuiz" class="list-group-item">我发出的问题</button>
         </ul>
     </div>
 </div>

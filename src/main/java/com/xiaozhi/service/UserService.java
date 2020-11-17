@@ -2,6 +2,9 @@ package com.xiaozhi.service;
 
 import com.xiaozhi.entity.Topic;
 import com.xiaozhi.entity.User;
+import com.xiaozhi.vo.AttentionVO;
+import com.xiaozhi.vo.MyQuizVO;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -56,5 +59,14 @@ public interface UserService {
     boolean deleteById(String id);
     Map<String,String> queryByName(String username, String password);
 
+    int insertAttention(AttentionVO attentionVO);
+    int delAttention(String user_id,String topic_id);
 
+    //查询关注问题
+    List<AttentionVO> queryAttention(String id);
+
+    //查询发表问题
+    List<MyQuizVO> queryQuiz(String id);
+
+    int delQuiz(String user_id,String topic_id);
 }

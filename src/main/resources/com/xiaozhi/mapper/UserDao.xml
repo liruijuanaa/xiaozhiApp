@@ -98,4 +98,42 @@
         from xiaozhi.user
         where USERNAME = #{username}
     </select>
+
+    <!--查询用户的关注话题-->
+    <select id="queryAttention" resultType="com.xiaozhi.vo.AttentionVO">
+        select
+	        u.ID as USER_ID,t.ID as TOPIC_ID
+	        from xiaozhi.user u inner join xiaozhi.attention a
+            on u.ID=a.USER_ID
+            inner join xiaozhi.topic t
+            on t.ID=a.TOPIC_ID
+            where u.ID = #{id}
+    </select>
+
+    <!--查询用户发表的话题-->
+    <select id="queryQuiz" resultType="com.xiaozhi.vo.MyQuizVO">
+        select
+	        u.ID as USER_ID,t.ID as TOPIC_ID
+	        from xiaozhi.user u inner join xiaozhi.myquiz m
+            on u.ID=m.USER_ID
+            inner join xiaozhi.topic t
+            on t.ID=m.TOPIC_ID
+            where u.ID = #{id}
+    </select>
+
+    <!--添加关注的问题-->
+    <insert id="insertAttention" parameterType="com.xiaozhi.vo.AttentionVO">
+        insert into xiaozhi.attention(USER_ID,TOPIC_ID)
+        values (#{user_id},#{topic_id})
+    </insert>
+
+    <!--取消关注-->
+    <insert id="delAttention">
+       delete from xiaozhi.attention where USER_ID = #{user_id} and TOPIC_ID=#{topic_id}
+    </insert>
+
+    <!--删除发表-->
+    <insert id="delQuiz">
+       delete from xiaozhi.myquiz where USER_ID = #{user_id} and TOPIC_ID=#{topic_id}
+    </insert>
 </mapper>

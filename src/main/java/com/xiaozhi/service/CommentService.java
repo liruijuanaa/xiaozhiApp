@@ -4,6 +4,7 @@ import com.xiaozhi.entity.Comment;
 import com.xiaozhi.vo.CommentVO;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * (Comment)表服务接口
@@ -28,7 +29,7 @@ public interface CommentService {
      * @param limit  查询条数
      * @return 对象列表
      */
-    List<Comment> queryAllByLimit(int offset, int limit);
+    Map<String, Object> queryAllByLimit(int rows, int page, String id);
 
     /**
      * 新增数据
@@ -54,4 +55,6 @@ public interface CommentService {
      */
     boolean deleteById(String id);
     List<CommentVO> queryComment(String id,Integer limit);
+
+    int queryNum();
 }

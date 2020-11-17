@@ -1,6 +1,7 @@
 package com.xiaozhi.service;
 
 import com.xiaozhi.entity.Topic;
+import com.xiaozhi.vo.MyQuizVO;
 
 import java.util.List;
 
@@ -35,7 +36,7 @@ public interface TopicService {
      * @param topic 实例对象
      * @return 实例对象
      */
-    Topic insert(Topic topic);
+    Topic insert(String title);
 
     /**
      * 修改数据
@@ -57,4 +58,9 @@ public interface TopicService {
      * 热股榜
      * */
     List<Topic> queryHot();
+
+    /**
+     * 用户发表提问
+     * */
+    int insertQuiz(MyQuizVO quizVO);
 }

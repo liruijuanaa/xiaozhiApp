@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -55,10 +56,10 @@ public class CommentController {
     }
 
     @RequestMapping("updateComment")
-    public String updateComment(String id,String uid){
-        System.out.println("uid"+uid);
+    public String updateComment(String id,String topid){
+        System.out.println("uid"+topid);
         this.commentService.update(id);
-        return "redirect:/main.jsp?id="+uid+"";
+        return "redirect:/commen.jsp?id="+topid+"";
     }
     @ResponseBody
     @RequestMapping("addComment")
@@ -74,5 +75,12 @@ public class CommentController {
         this.topicService.update(topic);
         System.out.println(comment);
         return "nnn";
+    }
+
+    //分页查询
+    @RequestMapping("queryFenye")
+    public Map<String,Object> queryFenye(int rows,int page,String id){
+        Map<String, Object> map = commentService.queryAllByLimit(rows, page, id);
+        return map;
     }
 }

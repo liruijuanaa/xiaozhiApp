@@ -1,6 +1,7 @@
 package com.xiaozhi.dao;
 
 import com.xiaozhi.entity.Topic;
+import com.xiaozhi.vo.MyQuizVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -80,4 +81,7 @@ public interface TopicDao {
     int deleteById(String id);
 
     List<Topic> queryHot();
+
+    //用户发表提问
+    int insertQuiz(MyQuizVO quizVO);
 }
