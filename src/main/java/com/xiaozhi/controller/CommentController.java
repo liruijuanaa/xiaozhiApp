@@ -1,11 +1,15 @@
 package com.xiaozhi.controller;
 
 import com.xiaozhi.dao.TopicDao;
+import com.xiaozhi.entity.Category;
 import com.xiaozhi.entity.Comment;
+import com.xiaozhi.entity.Subsystem;
 import com.xiaozhi.entity.Topic;
+import com.xiaozhi.service.CategoryService;
 import com.xiaozhi.service.CommentService;
 import com.xiaozhi.service.TopicService;
 import com.xiaozhi.vo.CommentVO;
+import com.xiaozhi.vo.MyAnswerVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -33,6 +38,9 @@ public class CommentController {
     private CommentService commentService;
 
     @Resource
+    private CategoryService categoryService;
+
+    @Resource
     private TopicService topicService;
     private int limit2 =0;
     /**
@@ -49,10 +57,11 @@ public class CommentController {
 
     @RequestMapping("queryComment")
     @ResponseBody
-    public List<CommentVO> queryComment(String id,Integer limit){
-        limit2=limit2+2;
-        System.out.println("limit2的值是："+limit2);
-        return this.commentService.queryComment(id,limit2);
+    public List<CommentVO> queryComment(int id){
+        System.out.println("话题ID为："+id);
+
+
+        return this.commentService.queryComment(id);
     }
 
     @RequestMapping("updateComment")
@@ -63,17 +72,37 @@ public class CommentController {
     }
     @ResponseBody
     @RequestMapping("addComment")
-    public String addComment(Comment comment){
-        System.out.println("输出comment");
-        String s = UUID.randomUUID().toString();
-        comment.setId(s);
-        this.commentService.insert(comment);
-        String topicId = comment.getTopicId();
-        Topic topic = this.topicService.queryById(topicId);
-        Integer num = topic.getComment();
-        topic.setComment(++num);
-        this.topicService.update(topic);
-        System.out.println(comment);
+    public String addComment(CommentVO commentVO){
+        System.out.println("输出comment"+commentVO);
+        Subsystem subsystem1 = this.topicService.queryById(commentVO.getPid());
+
+        Subsystem subsystem=new Subsystem();
+        subsystem.setName(commentVO.getName());
+        subsystem.setDescription(commentVO.getDescription());
+        subsystem.setIcon(subsystem1.getIcon());
+        subsystem.setPid(commentVO.getPid());
+        subsystem.setCreate_time(new Date());
+        subsystem.setStatus(0);
+        subsystem.setSeq(0);
+        int level = subsystem1.getSys_level();
+        int a=++level;
+        System.out.println("level"+level);
+        subsystem.setSys_level(level);
+        System.out.println("----"+subsystem);
+        Subsystem insert = this.commentService.insert(subsystem);
+        this.topicService.insertAns(new MyAnswerVO(commentVO.getUSER_ID(), insert.getId()));
+
+//        String topicId = comment.getTopicId();
+//        System.out.println("topicid"+topicId);
+//        Topic topic = this.topicService.queryById(topicId);
+//        Integer num = topic.getComment();
+//        topic.setComment(++num);
+//        this.topicService.update(topic);
+//        System.out.println(comment);
+//        Category category = this.categoryService.queryById(topic.getCategory_id());
+//        Integer posts = category.getPosts();
+//        category.setPosts(++posts);
+//        this.categoryService.update(category);
         return "nnn";
     }
 
@@ -82,5 +111,12 @@ public class CommentController {
     public Map<String,Object> queryFenye(int rows,int page,String id){
         Map<String, Object> map = commentService.queryAllByLimit(rows, page, id);
         return map;
+    }
+
+    //查询所有
+    @RequestMapping("queryCom")
+    @ResponseBody
+    public List<Comment> queryCom(){
+        return this.commentService.queryCom();
     }
 }

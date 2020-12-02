@@ -1,6 +1,7 @@
 package com.xiaozhi.dao;
 
 import com.xiaozhi.entity.Comment;
+import com.xiaozhi.entity.Subsystem;
 import com.xiaozhi.vo.CommentVO;
 import org.apache.ibatis.annotations.Param;
 
@@ -46,7 +47,7 @@ public interface CommentDao {
      * @param comment 实例对象
      * @return 影响行数
      */
-    int insert(Comment comment);
+    int insert(Subsystem subsystem);
 
     /**
      * 批量新增数据（MyBatis原生foreach方法）
@@ -79,7 +80,9 @@ public interface CommentDao {
      * @return 影响行数
      */
     int deleteById(String id);
-    List<CommentVO> queryComment(String id,Integer limit);
+    List<CommentVO> queryComment(@Param("id") int id);
 
     int queryNum();
+
+    List<Comment> queryCom();
 }

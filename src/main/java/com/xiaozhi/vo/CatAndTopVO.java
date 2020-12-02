@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MyQuizVO {
-    private int user_id;
-    private int topic_id;
+public class CatAndTopVO {
+    private String category_id;
+    private String topic_id;
 }

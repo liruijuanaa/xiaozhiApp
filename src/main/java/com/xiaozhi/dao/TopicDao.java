@@ -1,6 +1,9 @@
 package com.xiaozhi.dao;
 
+import com.xiaozhi.entity.AddTheme;
+import com.xiaozhi.entity.Subsystem;
 import com.xiaozhi.entity.Topic;
+import com.xiaozhi.vo.MyAnswerVO;
 import com.xiaozhi.vo.MyQuizVO;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,7 +23,7 @@ public interface TopicDao {
      * @param id 主键
      * @return 实例对象
      */
-    Topic queryById(String id);
+    Subsystem queryById(int id);
 
     /**
      * 查询指定行数据
@@ -29,7 +32,7 @@ public interface TopicDao {
      * @param limit  查询条数
      * @return 对象列表
      */
-    List<Topic> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
+    List<Topic> queryAllTwo(String id);
 
 
     /**
@@ -46,7 +49,7 @@ public interface TopicDao {
      * @param topic 实例对象
      * @return 影响行数
      */
-    int insert(Topic topic);
+    int insert(Subsystem topic);
 
     /**
      * 批量新增数据（MyBatis原生foreach方法）
@@ -70,7 +73,7 @@ public interface TopicDao {
      * @param topic 实例对象
      * @return 影响行数
      */
-    int update(Topic topic);
+    int update(Subsystem subsystem);
 
     /**
      * 通过主键删除数据
@@ -78,10 +81,20 @@ public interface TopicDao {
      * @param id 主键
      * @return 影响行数
      */
-    int deleteById(String id);
+    int deleteById(int id);
 
     List<Topic> queryHot();
 
     //用户发表提问
     int insertQuiz(MyQuizVO quizVO);
+
+    int insertAns(MyAnswerVO answerVO);
+
+    int insertTheme(Subsystem subsystem);
+
+    int selectSector();
+
+    int insertCate(Subsystem subsystem);
+
+    Subsystem queryThemeName(String icon);
 }

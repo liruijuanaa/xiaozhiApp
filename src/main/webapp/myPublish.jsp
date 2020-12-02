@@ -23,7 +23,7 @@
         $(function (){
             var uid = sessionStorage.getItem("id");
             var $panelList=$("#panelList");
-            var aa;
+
             // var $aa = $("#aaa");
             $.ajax({
                 url:"${path}/user/queryQuiz",
@@ -34,31 +34,49 @@
                     // console.log(data)
                     $.each(data,function (index,quiz){
                         console.log(quiz.topic_id)
-                        aa=quiz.topic_id;
+
                         $.ajax({
                             url:"${path}/topic/selectOne",
                             dataType: "json",
                             type: "post",
                             data:{id:quiz.topic_id},
                             success:function (data){
-                                console.log(data)
-                                var $titlehr="<div class=\"panel\">\n" +
-                                    "                            <div class=\"panel-body\" id=\"aa\">\n" +
-                                    "                                <p>\n" +
-                                    "                                    <h3><a href=\"${path}/commen.jsp?id="+data.id+"\">"+data.title+"</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-                                    "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-                                    "<a type=\"button\" id=\"deleteQuiz\"> <small><span class=\"glyphicon glyphicon-trash\"></span></small></a></h3>" +
-                                    "                                </p>\n" +
-                                    "                            </div>";
-                                var $cctr=" <div class=\"panel-footer\" style=\"background-color: white;\">\n" +
-                                    "                                <span class=\"glyphicon glyphicon-thumbs-up\"></span>"+data.prise+"赞<span class=\"glyphicon glyphicon-comment\"></span>&nbsp;"+data.comment+"条评论</a>\n" +
-                                    "                                &nbsp;&nbsp;\n" +
-                                    "                        </div>";
-                                $panelList.append($titlehr).append($cctr);
+
+                                $.ajax({
+                                    url:"${path}/topic/queryThemeName",
+                                    dataType:"json",
+                                    type:"post",
+                                    data:{icon:data.icon},
+                                    success:function (dd){
+                                        var themeNa = dd.name;
+
+                                        if (data.status==1){
+                                            // $("#help_id").replaceWith("<button type=\"button\" id=\"resolved_id\" class=\"btn btn-success\">已解决</button>");
+                                            var $state="<a href=\"${path}/topic/updateStatus?status=0&id="+data.id+"\" type=\"button\" id=\"resolved_id\" class=\"btn btn-success\">已解决</a>";
+                                        }else {
+                                            var $state="<a href=\"${path}/topic/updateStatus?status=1&id="+data.id+"\" type=\"button\" id=\"help_id\" class=\"btn btn-danger\">求助</a>";
+                                        }
+                                        console.log(data)
+                                        var $titlehr="<div class=\"panel\">\n" +
+                                            "                            <div class=\"panel-body\" id=\"aa\">\n" +
+                                            "                                <p>\n" +
+                                            "                                    <h3><a href=\"${path}/commen.jsp?id="+data.id+"&name="+themeNa+"\">"+data.name+"</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
+                                            $state+
+                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a type=\"button\" href=\"${path}/user/delQuiz?user_id="+uid+"&topic_id="+data.id+"\" id=\"deleteQuiz\"> <small><span class=\"glyphicon glyphicon-trash\"></span></small></a></h3>" +
+                                            "                                </p>\n" +
+                                            "                            </div>";
+                                        // var $cctr=" <div class=\"panel-footer\" style=\"background-color: white;\">\n" +
+                                        //     "                                <span class=\"glyphicon glyphicon-thumbs-up\"></span>赞<span class=\"glyphicon glyphicon-comment\"></span>&nbsp;条评论</a>\n" +
+                                        //     "                                &nbsp;&nbsp;\n" +
+                                        //     "                        </div>";
+                                        $panelList.append($titlehr);
+                                    }
+                                })
+
 
 
 
@@ -67,6 +85,8 @@
                         })
 
                     })
+
+
                 }
             })
             $("#myAttention").click(function (){
@@ -75,19 +95,10 @@
             $("#myQuiz").click(function (){
                 location.href = "${path}/myPublish.jsp"
             })
-            //删除发布
-            $("#panelList").on('click','#deleteQuiz',function (){
-                $.ajax({
-                    url:"${path}/user/delQuiz",
-                    type:"post",
-                    method:"post",
-                    dataType:"json",
-                    data:{user_id:uid,topic_id: aa},
-                    success:function (){
-                        location.href="${path}/myPublish.jsp";
-                    }
-                })
-            })
+
+
+
+
         })
     </script>
 </head>
@@ -105,17 +116,12 @@
             <div class="navbar-collapse collapse" id="menu-1">
 
                 <ul class="nav navbar-nav">
-                    <li><a href="">关于小知</a></li>
-                    <li><a href="${path}/main.jsp">首页</a></li>
-                    <li><a href="">等你来答</a></li>
+
+                    <li><a href="${path}/homePage.jsp">首页</a></li>
+
                 </ul>
-                <form class="navbar-form navbar-left" role="search">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search">
-                    </div>
-                    <button type="submit" class="btn btn-default">搜索</button>
-                </form>
-                <a href="${path}/quiz.jsp" type="button" class="navbar-btn btn btn-primary">提问</a>
+
+<%--                <a href="${path}/quiz.jsp" type="button" class="navbar-btn btn btn-primary">发帖</a>--%>
                 <div class="navbar-btn navbar-right" style="background-color: transparent" id="photoDiv">
 
                 </div>
@@ -140,9 +146,7 @@
     <!--右侧-->
     <div class="col-md-2">
         <ul class="list-group">
-            <li class="list-group-item">写回答</li>
-            <li class="list-group-item">我的草稿</li>
-            <li class="list-group-item">我的收藏</li>
+
             <button class="list-group-item" id="myAttention">我关注的问题</button>
             <button id="myQuiz" class="list-group-item">我发出的问题</button>
         </ul>

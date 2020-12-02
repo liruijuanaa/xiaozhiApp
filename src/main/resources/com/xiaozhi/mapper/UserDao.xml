@@ -3,137 +3,214 @@
 <mapper namespace="com.xiaozhi.dao.UserDao">
 
     <resultMap type="com.xiaozhi.entity.User" id="UserMap">
-        <result property="id" column="ID" jdbcType="VARCHAR"/>
-        <result property="username" column="USERNAME" jdbcType="VARCHAR"/>
-        <result property="password" column="PASSWORD" jdbcType="VARCHAR"/>
-        <result property="photo" column="PHOTO" jdbcType="VARCHAR"/>
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="usergroup" column="userGroup" jdbcType="VARCHAR"/>
+        <result property="project" column="project" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="updatetime" column="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="UserMap">
         select
-          ID, USERNAME, PASSWORD, PHOTO
-        from xiaozhi.user
-        where ID = #{id}
+          id, username, password, userGroup, project, description, email, updateTime
+        from mysql.user_table
+        where id = #{id}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="UserMap">
         select
-          ID, USERNAME, PASSWORD, PHOTO
-        from xiaozhi.user
+          id, username, password, userGroup, project, description, email, updateTime
+        from mysql.user_table
         limit #{offset}, #{limit}
     </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="UserMap">
         select
-        ID, USERNAME, PASSWORD, PHOTO
-        from xiaozhi.user
+        id, username, password, userGroup, project, description, email, updateTime
+        from mysql.user_table
         <where>
-            <if test="id != null and id != ''">
-                and ID = #{id}
+            <if test="id != null">
+                and id = #{id}
             </if>
             <if test="username != null and username != ''">
-                and USERNAME = #{username}
+                and username = #{username}
             </if>
             <if test="password != null and password != ''">
-                and PASSWORD = #{password}
+                and password = #{password}
             </if>
-            <if test="photo != null and photo != ''">
-                and PHOTO = #{photo}
+            <if test="usergroup != null and usergroup != ''">
+                and userGroup = #{usergroup}
+            </if>
+            <if test="project != null and project != ''">
+                and project = #{project}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="updatetime != null">
+                and updateTime = #{updatetime}
             </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into xiaozhi.user(ID,USERNAME, PASSWORD, PHOTO)
-        values (#{id},#{username}, #{password}, #{photo})
+        insert into mysql.user_table(username, password, userGroup, project, description, email, updateTime)
+        values (#{username}, #{password}, #{usergroup}, #{project}, #{description}, #{email}, #{updatetime})
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into xiaozhi.user(USERNAME, PASSWORD, PHOTO)
+        insert into mysql.user_table(username, password, userGroup, project, description, email, updateTime)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.username}, #{entity.password}, #{entity.photo})
+            (#{entity.username}, #{entity.password}, #{entity.usergroup}, #{entity.project}, #{entity.description},
+            #{entity.email}, #{entity.updatetime})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into xiaozhi.user(USERNAME, PASSWORD, PHOTO)
+        insert into mysql.user_table(username, password, userGroup, project, description, email, updateTime)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.username}, #{entity.password}, #{entity.photo})
+            (#{entity.username}, #{entity.password}, #{entity.usergroup}, #{entity.project}, #{entity.description},
+            #{entity.email}, #{entity.updatetime})
         </foreach>
         on duplicate key update
-        USERNAME = values(USERNAME) , PASSWORD = values(PASSWORD) , PHOTO = values(PHOTO)
+        username = values(username) , password = values(password) , userGroup = values(userGroup) , project =
+        values(project) , description = values(description) , email = values(email) , updateTime = values(updateTime)
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
-        update xiaozhi.user
+        update mysql.user_table
         <set>
             <if test="username != null and username != ''">
-                USERNAME = #{username},
+                username = #{username},
             </if>
             <if test="password != null and password != ''">
-                PASSWORD = #{password},
+                password = #{password},
             </if>
-            <if test="photo != null and photo != ''">
-                PHOTO = #{photo},
+            <if test="usergroup != null and usergroup != ''">
+                userGroup = #{usergroup},
+            </if>
+            <if test="project != null and project != ''">
+                project = #{project},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="updatetime != null">
+                updateTime = #{updatetime},
             </if>
         </set>
-        where ID = #{id}
+        where id = #{id}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from xiaozhi.user where ID = #{id}
+        delete from mysql.user_table where id = #{id}
     </delete>
     <!--查询单个-->
     <select id="queryByName" resultMap="UserMap">
         select
-          ID, USERNAME, PASSWORD, PHOTO
-        from xiaozhi.user
-        where USERNAME = #{username}
+          id, username, password, userGroup, project, description, email, updateTime
+        from mysql.user_table
+        where username = #{username}
+    </select>
+
+    <!--查询用户的关注话题-->
+    <select id="queryIfAtten" resultType="com.xiaozhi.vo.AttentionVO">
+        select
+	        USER_ID as user_id, TOPIC_ID as topic_id
+	        from mysql.forum_attention
+            where USER_ID = #{id}
     </select>
 
     <!--查询用户的关注话题-->
     <select id="queryAttention" resultType="com.xiaozhi.vo.AttentionVO">
         select
-	        u.ID as USER_ID,t.ID as TOPIC_ID
-	        from xiaozhi.user u inner join xiaozhi.attention a
-            on u.ID=a.USER_ID
-            inner join xiaozhi.topic t
+	        u.id as user_id,t.ID as topic_id
+	        from mysql.user_table u inner join mysql.forum_attention a
+            on u.id=a.USER_ID
+            inner join pcs_001.subsystem t
             on t.ID=a.TOPIC_ID
-            where u.ID = #{id}
+            where u.id = #{id}
+            limit #{start}, 2
+    </select>
+
+    <!--查询用户关注话题的总数-->
+    <select id="getAttNum" resultType="int">
+        select
+	        count(TOPIC_ID)
+	        from mysql.forum_attention
+            where USER_ID = #{id}
     </select>
 
     <!--查询用户发表的话题-->
     <select id="queryQuiz" resultType="com.xiaozhi.vo.MyQuizVO">
         select
-	        u.ID as USER_ID,t.ID as TOPIC_ID
-	        from xiaozhi.user u inner join xiaozhi.myquiz m
-            on u.ID=m.USER_ID
-            inner join xiaozhi.topic t
+	        u.id as USER_ID,t.ID as TOPIC_ID
+	        from mysql.user_table u inner join mysql.forum_myquiz m
+            on u.id=m.USER_ID
+            inner join pcs_001.subsystem t
             on t.ID=m.TOPIC_ID
-            where u.ID = #{id}
+            where u.id = #{id}
+    </select>
+
+    <!--根据话题ID查询用户-->
+    <select id="queryUser" resultMap="UserMap">
+        select
+	        u.id as id, username, password, userGroup, project, description, email, updateTime
+	        from mysql.user_table u inner join mysql.forum_myquiz m
+            on u.id=m.USER_ID
+            inner join pcs_001.subsystem t
+            on t.ID=m.TOPIC_ID
+            where t.ID = #{id}
     </select>
 
     <!--添加关注的问题-->
     <insert id="insertAttention" parameterType="com.xiaozhi.vo.AttentionVO">
-        insert into xiaozhi.attention(USER_ID,TOPIC_ID)
+        insert into mysql.forum_attention(USER_ID,TOPIC_ID)
         values (#{user_id},#{topic_id})
     </insert>
 
     <!--取消关注-->
     <insert id="delAttention">
-       delete from xiaozhi.attention where USER_ID = #{user_id} and TOPIC_ID=#{topic_id}
+       delete from mysql.forum_attention where USER_ID = #{user_id} and TOPIC_ID=#{topic_id}
     </insert>
 
     <!--删除发表-->
-    <insert id="delQuiz">
-       delete from xiaozhi.myquiz where USER_ID = #{user_id} and TOPIC_ID=#{topic_id}
-    </insert>
+    <delete id="delQuiz">
+       delete from mysql.forum_myquiz where USER_ID = #{user_id} and TOPIC_ID=#{topic_id}
+    </delete>
+
+    <!--删除发表-->
+    <select id="queryByOneName" resultMap="UserMap" parameterType="String">
+       select id, username, password, userGroup, project, description, email, updateTime
+       from mysql.user_table
+       where username=#{username}
+    </select>
+
+    <!--根据话题ID去查询用户ID-->
+    <select id="queryPub" resultType="int">
+        select
+	        u.id as id
+	        from mysql.user_table u inner join mysql.forum_myquiz m
+            on u.id=m.USER_ID
+            inner join pcs_001.subsystem t
+            on t.id=m.TOPIC_ID
+            where t.ID = #{id}
+    </select>
 </mapper>

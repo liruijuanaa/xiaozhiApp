@@ -25,6 +25,7 @@
             $.extend($.validator.messages, {
                 required: "<span style='color:red' >这是必填字段</span>",  //再需要验证的input上加入 required属性
                 minlength: $.validator.format("<span style='color:red' >最少要输入 4 个字符</span>"),  //再需要验证的input上加入  minlength="4"
+
             });
             $("#loginButtonId").click(function () {
                 //先判断表单验证是否通过
@@ -42,7 +43,7 @@
                             if (data.status == "200") {
                                 //登录成功跳转至首页
                                 sessionStorage.setItem("id",data.id);
-                                location.href = "${path}"+data.url+""
+                                location.href = "${path}/main.jsp";
                             } else {
                                 //没有登陆成功 展示提示信息
                                 $("#msgDiv").html("<span style='color:red'>" + data.msg + "</span>");
@@ -80,7 +81,7 @@
 
                     <p class="text-muted text-center"><a href="IdeaProjects/xiaozhiApp/src/main/webapp/login.jsp#">
 
-                    </a> | <a href="${path}/regist.jsp">注册一个新账号</a>
+                    </a>  <a href="${path}/regist.jsp">没有账号？注册一个新账号</a>
                     </p>
 
                 </form>

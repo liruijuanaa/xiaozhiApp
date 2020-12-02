@@ -7,23 +7,26 @@
         <result property="title" column="TITLE" jdbcType="VARCHAR"/>
         <result property="prise" column="PRISE" jdbcType="INTEGER"/>
         <result property="comment" column="COMMENT" jdbcType="INTEGER"/>
+        <result property="content" column="CONTENT" jdbcType="VARCHAR"/>
+        <result property="category_id" column="CATEGORY_ID" jdbcType="INTEGER"/>
+        <result property="publish_date" column="PUBLISH_DATE" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <!--查询单个-->
-    <select id="queryById" resultMap="TopicMap">
+    <select id="queryById" resultType="com.xiaozhi.entity.Subsystem">
         select
-          ID, TITLE, PRISE, COMMENT
-        from xiaozhi.topic
-        where ID = #{id}
+          id, name, description, icon, pid, seq, status, sys_level, create_time
+        from pcs_001.subsystem
+        where id = #{id}
     </select>
 
     <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="TopicMap">
+    <select id="queryAllTwo" resultMap="TopicMap" parameterType="String">
         select
-          ID, TITLE, PRISE, COMMENT
-        from xiaozhi.topic
+          ID, TITLE, PRISE, COMMENT,CONTENT,STATUS,CATEGORY_ID, PUBLISH_DATE
+        from mysql.forum_topic
         order by PRISE DESC
-        limit #{offset}, #{limit}
+
     </select>
 
     <!-- 查询评论 -->
@@ -31,8 +34,8 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="TopicMap">
         select
-        ID, TITLE, PRISE, COMMENT
-        from xiaozhi.topic
+        ID, TITLE, PRISE, COMMENT, CONTENT, STATUS, CATEGORY_ID, PUBLISH_DATE
+        from mysql.forum_topic
         <where>
             <if test="id != null and id != ''">
                 and ID = #{id}
@@ -46,17 +49,29 @@
             <if test="comment != null">
                 and COMMENT = #{comment}
             </if>
+            <if test="content != null">
+                and CONTENT = #{content}
+            </if>
+            <if test="status != null">
+                and STATUS = #{status}
+            </if>
+            <if test="category_id != null">
+                and CATEGORY_ID = #{category_id}
+            </if>
+            <if test="publish_date != null">
+                and PUBLISH_DATE = #{publish_date}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true" >
-        insert into xiaozhi.topic(ID,TITLE, PRISE, COMMENT)
-        values (#{id},#{title}, #{prise}, #{comment})
+        insert into pcs_001.subsystem(name, description, icon, pid, seq, status, sys_level, create_time)
+        values (#{name}, #{description}, #{icon}, #{pid}, #{seq}, #{status}, #{sys_level}, #{create_time})
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into xiaozhi.topic(TITLE, PRISE, COMMENT)
+        insert into mysql.forum_topic(TITLE, PRISE, COMMENT)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.title}, #{entity.prise}, #{entity.comment})
@@ -64,7 +79,7 @@
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into xiaozhi.topic(TITLE, PRISE, COMMENT)
+        insert into mysql.forum_topic(TITLE, PRISE, COMMENT)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.title}, #{entity.prise}, #{entity.comment})
@@ -75,38 +90,82 @@
 
     <!--通过主键修改数据-->
     <update id="update">
-        update xiaozhi.topic
+        update pcs_001.subsystem
         <set>
-            <if test="title != null and title != ''">
-                TITLE = #{title},
+            <if test="name != null and name != ''">
+                name = #{name},
             </if>
-            <if test="prise != null">
-                PRISE = #{prise},
+            <if test="description != null  and description != ''">
+                description = #{description},
             </if>
-            <if test="comment != null">
-                COMMENT = #{comment},
+            <if test="icon != null  and icon != ''">
+                icon = #{icon},
             </if>
+            <if test="pid != null">
+                pid = #{pid},
+            </if>
+            <if test="seq != null">
+                seq = #{seq},
+            </if>
+            <if test="status != null">
+                STATUS = #{status},
+            </if>
+            <if test="sys_level != null">
+                sys_level = #{sys_level},
+            </if>
+
         </set>
-        where ID = #{id}
+        where id = #{id}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from xiaozhi.topic where ID = #{id}
+        delete from pcs_001.subsystem where id = #{id}
     </delete>
 
     <!--热股榜-->
     <select id="queryHot" resultMap="TopicMap">
         select
-          ID, TITLE, PRISE, COMMENT
-        from xiaozhi.topic
+          ID, TITLE, PRISE, COMMENT, CONTENT, STATUS, CATEGORY_ID, PUBLISH_DATE
+        from mysql.forum_topic
         order by COMMENT DESC
         limit 0, 1
     </select>
 
     <!--发表提问-->
     <insert id="insertQuiz" parameterType="com.xiaozhi.vo.MyQuizVO">
-         insert into xiaozhi.myquiz(USER_ID,TOPIC_ID)
+         insert into mysql.forum_myquiz(USER_ID,TOPIC_ID)
         values (#{user_id},#{topic_id})
     </insert>
+
+
+    <!--添加回答-->
+    <insert id="insertAns" parameterType="com.xiaozhi.vo.MyAnswerVO">
+         insert into mysql.forum_myanswer(USER_ID,TOPIC_ID)
+        values (#{user_id},#{topic_id})
+    </insert>
+
+    <!--新增主题-->
+    <insert id="insertTheme" keyProperty="id" useGeneratedKeys="true" >
+         insert into pcs_001.subsystem( name, description, icon, pid, seq, status, sys_level, create_time)
+        values (#{name}, #{description}, #{icon}, #{pid}, #{seq}, #{status}, #{sys_level}, #{create_time})
+    </insert>
+
+    <!--新增类别-->
+    <insert id="insertCate" keyProperty="id" useGeneratedKeys="true">
+         insert into pcs_001.subsystem( name, description, icon, pid, seq, status, sys_level, create_time)
+        values (#{name}, #{description}, #{icon}, #{pid}, #{seq}, #{status}, #{sys_level}, #{create_time})
+    </insert>
+
+    <select id="selectSector" resultType="int">
+        select COUNT(id)
+            from pcs_001.subsystem
+            where sys_level=0
+    </select>
+
+    <select id="queryThemeName" parameterType="String" resultType="com.xiaozhi.entity.Subsystem">
+        select id, name, description, icon, pid, seq, status, sys_level, create_time
+            from pcs_001.subsystem
+            where icon=#{icon} and sys_level=0
+    </select>
 </mapper>

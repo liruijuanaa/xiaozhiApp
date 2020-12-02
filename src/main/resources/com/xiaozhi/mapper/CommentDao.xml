@@ -14,26 +14,21 @@
     <select id="queryById" resultMap="CommentMap">
         select
           ID, CONTENT, USER_ID, TOPIC_ID, PRISE
-        from xiaozhi.comment
+        from mysql.forum_comment
         where ID = #{id}
     </select>
 
+    <!--查询话题的评论，根据二级类别ID  评论的pid=二级类别ID-->
     <select id="queryComment"  resultType="com.xiaozhi.vo.CommentVO">
-       select c.ID,c.CONTENT,c.USER_ID,c.TOPIC_ID,c.PRISE,u.USERNAME,u.PHOTO
-            from xiaozhi.topic t inner join xiaozhi.comment c
-            on t.ID=c.TOPIC_ID
-            inner join xiaozhi.user u
-            on c.USER_ID=u.ID
-            where t.ID=#{id}
-            order by c.PRISE DESC
-            limit 0 , #{limit}
+       select id,name, description, icon, pid, seq, status, sys_level, create_time
+            from pcs_001.subsystem
+            where pid=#{id}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="CommentMap">
-        select c.ID,c.CONTENT,c.USER_ID,c.TOPIC_ID,c.PRISE,u.USERNAME,u.PHOTO
-          ID, CONTENT, USER_ID, TOPIC_ID, PRISE
-        from xiaozhi.topic t inner join xiaozhi.comment c
+        select c.ID as ID,c.CONTENT as CONTENT,c.USER_ID as USER_ID,c.TOPIC_ID as TOPIC_ID,c.PRISE as PRISE
+        from mysql.forum_topic t inner join mysql.forum_comment c
             on t.ID=c.TOPIC_ID
             where t.ID=#{id}
         limit #{offset}, #{limit}
@@ -43,7 +38,7 @@
     <select id="queryAll" resultMap="CommentMap">
         select
         ID, CONTENT, USER_ID, TOPIC_ID, PRISE
-        from xiaozhi.comment
+        from mysql.forum_comment
         <where>
             <if test="id != null and id != ''">
                 and ID = #{id}
@@ -65,12 +60,12 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="" useGeneratedKeys="true">
-        insert into xiaozhi.comment(ID, CONTENT, USER_ID, TOPIC_ID, PRISE)
-        values (#{id}, #{content}, #{userId}, #{topicId}, #{prise})
+        insert into pcs_001.subsystem(name, description, icon, pid, seq, status, sys_level, create_time)
+        values (#{name}, #{description}, #{icon}, #{pid}, #{seq}, #{status},#{sys_level}, #{create_time})
     </insert>
 
     <insert id="insertBatch" keyProperty="" useGeneratedKeys="true">
-        insert into xiaozhi.comment(ID, CONTENT, USER_ID, TOPIC_ID, PRISE)
+        insert into mysql.forum_comment(ID, CONTENT, USER_ID, TOPIC_ID, PRISE)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.id}, #{entity.content}, #{entity.userId}, #{entity.topicId}, #{entity.prise})
@@ -78,7 +73,7 @@
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="" useGeneratedKeys="true">
-        insert into xiaozhi.comment(ID, CONTENT, USER_ID, TOPIC_ID, PRISE)
+        insert into mysql.forum_comment(ID, CONTENT, USER_ID, TOPIC_ID, PRISE)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.id}, #{entity.content}, #{entity.userId}, #{entity.topicId}, #{entity.prise})
@@ -90,7 +85,7 @@
 
     <!--通过主键修改数据-->
     <update id="update">
-        update xiaozhi.comment
+        update mysql.forum_comment
         <set>
             <if test="id != null and id != ''">
                 ID = #{id},
@@ -113,12 +108,15 @@
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from xiaozhi.comment where ID= #{id}
+        delete from mysql.forum_comment where ID= #{id}
     </delete>
 
     <!--查询总条数-->
     <delete id="queryNum">
-        select count(id) from xiaozhi.comment
+        select count(id) from mysql.forum_comment
     </delete>
 
+    <select id="queryCom" resultMap="CommentMap">
+        select * from mysql.forum_comment
+    </select>
 </mapper>

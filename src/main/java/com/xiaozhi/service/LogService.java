@@ -51,6 +51,6 @@ public interface LogService {
      * @param 主键
      * @return 是否成功
      */
-    boolean deleteById(String id);
+    void deleteById(String id);
 
 }

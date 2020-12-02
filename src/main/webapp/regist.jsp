@@ -17,19 +17,25 @@
     <script>
         $(function (){
             //表单验证
-            $("#loginForm").validate({
-                rules:{
-                    username:{required:true},
-                    password:{required: true,minlength:6},
-                    repassword:{required:true,minlength:6,equalTo:"#pwd"}
-                },
-                message:{
-                    username: {required:"请填写用户名"},
-                    password: {required:"请输入密码",minlength:"密码最少为6位"},
-                    repassword: {required:"请输入密码",minlength:"密码最少为6位",equalTo:"两次密码必须一样",}
-                }
+            //表单验证
+            $.extend($.validator.messages, {
+                required: "<span style='color:red' >这是必填字段</span>",  //再需要验证的input上加入 required属性
+                minlength: $.validator.format("<span style='color:red' >密码最少为6位</span>"),  //再需要验证的input上加入  minlength="4"
 
             });
+            // $("#loginForm").validate({
+            //     rules:{
+            //         username:{required:true},
+            //         password:{required: true,minlength:6},
+            //         repassword:{required:true,minlength:6,equalTo:"#pwd"}
+            //     },
+            //     message:{
+            //         username: {required:"请填写用户名"},
+            //         password: {required:"请输入密码",minlength:"密码最少为6位"},
+            //         repassword: {required:"请输入密码",minlength:"密码最少为6位",equalTo:"两次密码必须一样",}
+            //     }
+            //
+            // });
             <%--$("#registButtonId").click(function () {--%>
             <%--    //先判断表单验证是否通过--%>
             <%--    // var isOk = $("#loginForm").valid(); //开启表单验证--%>
@@ -62,23 +68,23 @@
                     <h1 class="logo-name"><img src="${path}/style/img/logo.png"></h1>
 
                 </div>
-                <h3>欢迎使用 小知</h3>
+                <h3>请填写注册信息</h3>
                 <span id="msgDiv"></span>
                 <form role="form" id="loginForm" action="${path}/user/addUser" method="post" enctype="multipart/form-data">
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="用户名/手机号/邮箱" name="username">
+                        <input type="text" class="form-control" placeholder="用户名/手机号/邮箱" name="username" required>
                     </div>
                     <div class="form-group">
-                        <input type="password" class="form-control" placeholder="密码" name="password">
+                        <input type="password" class="form-control" placeholder="密码" name="password" required minlength>
                     </div>
-                    <div class="form-group">
-                        <input type="password" class="form-control" placeholder="确认密码" name="repassword" id="pwd">
-                    </div>
+<%--                    <div class="form-group">--%>
+<%--                        <input type="password" class="form-control" placeholder="确认密码" name="repassword" id="pwd" required minlength>--%>
+<%--                    </div>--%>
 
-                    <div class="form-group">
-                        <small>上传头像</small>
-                        <input type="file" name="file"> <br>
-                    </div>
+<%--                    <div class="input-group">--%>
+<%--                        <span class="input-group-addon" id="basic-addon3">上传头像:</span>--%>
+<%--                        <input type="file" name="file" class="form-control"> <br>--%>
+<%--                    </div>--%>
 
                     <button id="registButtonId" type="submit" class="btn btn-primary block full-width m-b">注册</button>
 

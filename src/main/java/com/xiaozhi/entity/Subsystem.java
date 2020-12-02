@@ -1,4 +1,4 @@
-package com.xiaozhi.vo;
+package com.xiaozhi.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -10,24 +10,18 @@ import java.io.Serializable;
 import java.util.Date;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class CommentVO implements Serializable {
+@NoArgsConstructor
+public class Subsystem implements Serializable {
     private int id;
-
     private String name;
-
     private String description;
-
     private String icon;
-
     private int pid;
-
+    private int seq;
+    private int status;
+    private int sys_level;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date create_time;
-
-    private int USER_ID;
-
-    private String username;
 }

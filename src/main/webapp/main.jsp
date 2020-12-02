@@ -18,104 +18,84 @@
     <link rel="stylesheet" type="text/css" href="${path}/style/css/bootstrap.css"/>
 
     <script src="${path}/style/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.css">
+    <link type="text/css" rel="styleSheet"  href="${path}/style/main.css" />
+    <script src="https://unpkg.com/bootstrap-table@1.18.0/dist/bootstrap-table.min.js"></script>
 
+    <style>
+
+    </style>
     <script>
+        var u_id;
+        var category_id;
+        var nn;
+        var pageNum;
+        var options;
         $(function (){
-            var u_id = sessionStorage.getItem("id")
-            console.log("u_id"+u_id);
+
+
+            category_id = window.location.href.split("=")[1];
+            console.log("一级类别ID是"+category_id)
+            var username = sessionStorage.getItem("uname");
+
+            var $sel = $("#select");
+            options=$("#select option:first").val();
+            $sel.change(function (){
+                options = $("#select option:selected").val();
+                // alert(options);
+                yy(1);
+            })
+            // alert(options);
+            <%--$.ajax({--%>
+            <%--    type : "post",--%>
+            <%--    method:"post",--%>
+            <%--    url : "${path}/category/selectOne", //请求发送到Page处--%>
+            <%--    data : {id:category_id},--%>
+            <%--    dataType : "json", //返回数据形式为json--%>
+            <%--    success:function (data){--%>
+            <%--        console.log(data)--%>
+                    var $za="<span style=\"color: lightgray\" class=\"glyphicon glyphicon-home\" aria-hidden=\"true\"></span><em> > </em><a href=\"${path}/homePage.jsp?username="+username+"\">论坛首页</a><em>></em></div>";
+                    $("#zz").append($za);
+            //     }
+            // })
+
 
             $.ajax({
-                url:"${path}/user/selectOne",
-                dataType:"JSON",
-                data:{id:u_id},
-                type:"post",
+                type : "post",
                 method:"post",
-                success:function (data){
+                async : true, //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                url : "${path}/category/queryTwoCategory", //请求发送到Page处
+                data : {category_id:category_id},
+                dataType : "json", //返回数据形式为json
+                success:function(data) {
+                    console.log(data);
+                    $.each(data,function (index,cat){
 
-                    console.log(data)
-                    var $photoimg="欢迎 "+data.username+"  <img src=\"${path}"+data.photo+"\" class=\"img-circle\" alt=\"\" width=\"30px\" height=\"30px\"></a></li>";
-                    $("#photoDiv").append($photoimg);
+                        var $op="<option value=\""+cat.id+"\">"+cat.description+"</option>";
+                        $sel.append($op);
+                    })
                 }
             });
-            var $contentBig = $("#contentBig");
-            //热股榜
-            $.ajax({
-                url:"${path}/topic/queryAll",
-                dataType:"json",
-                type:"post",
-                method:"post",
-                success:function (data){
 
-                    console.log(data)
+            var $photoimg="欢迎 "+username+"</a></li>";
+            $("#photoDiv").append($photoimg);
 
-                    $.each(data,function (index,hot){
-
-                        var $titlehr=
-                            "                <div class=\"panel\">\n" +
-                            "                    <div class=\"panel-heading text-danger\">\n" +
-                            "                        <div class=\"page-header\">\n" +
-                            "                            <h3><a href=\"${path}/commen.jsp?id="+hot.id+"\">"+hot.title+"</a></h3>";
-                        <%--var $titlehr=" <h3><a href=\"${path}/commen.jsp?id="+hot.id+"\">"+hot.title+"</a></h3>";--%>
-
-                        var $hotFoot="<div id=\"panelList\"></div><div class=\"panel-footer\">\n" +
-                            "                        <a  href=\"${path}/topic/updateTopic?id="+hot.id+"\"><span class=\"glyphicon glyphicon-thumbs-up\"></span>"+hot.prise+"赞</a>\n" +
-                            "                        &nbsp;&nbsp;\n" +
-                            "                        <a href=\"${path}/commen.jsp?id="+hot.id+"\"><span class=\"glyphicon glyphicon-comment\"></span>&nbsp;"+hot.comment+"</a>\n" +
-                            "                        &nbsp;&nbsp;\n" +
-                            "                        <a href=\"\"><span class=\"glyphicon glyphicon-star\"></span>&nbsp;收藏</a>\n" +
-
-                            "            </div>\n" +
-                            "        </div>";
-                        var $panelList=$("#panelList");
-                        //获取评论信息
-                        var $uutr;
-                        var $cctr;
-                        $.ajax({
-
-                            url:"${path}/comment/queryComment",
-                            dataType:"json",
-                            data:{id:hot.id},
-                            type:"post",
-                            method:"post",
-                            success:function (datas){
-                                if (datas.length!=0){
-                                    console.log("这是获取评论信息对象")
-                                    console.log(datas);
-                                    $.each(datas,function (index,msg){
-
-                                        // console.log("index的值："+index)
-
-                                       $uutr="<div><div class=\"panel-body\"><div class=\"panel\">\n" +
-                                            "                            <div class=\"panel-body\">\n" +
-                                            "                                <p>\n" +
-                                            "                                    <img src=\"${path}"+msg.photo+"\" alt=\"\" class=\"img-circle\" width=\"25px\" height=\"25px\">&nbsp;&nbsp;"+msg.username+"\n" +
-                                            "                                </p>\n" +
-                                            "                                <p>"+msg.content+"</p>\n" +
-                                            "                            </div>";
-                                        $cctr=" <div class=\"panel-footer\" style=\"background-color: white;\">\n" +
-                                            "                                <a id=\"updatePrise\"  href=\"${path}/comment/updateComment?id="+msg.id+"&uid="+u_id+"\" style=\"color:gray;\"><span class=\"glyphicon glyphicon-thumbs-up\" ></span>"+msg.prise+"赞</a>\n" +
-                                            "                                &nbsp;&nbsp;\n" +
-                                            "                                <a href=\"\" style=\"color:gray;\"  ><span class=\"glyphicon glyphicon-comment\"></span>&nbsp;查看回复</a>\n" +
-                                            "                            </div>\n" +
-                                            "                        </div></div></div>";
-
-                                         // $panelList.append($uutr).append($cctr);
+            $(document).click(function(e) { // 在页面任意位置点击而触发此事件
+                // alert($(e.target().attr('id')));
+            })
+            yy(1);
+            $("#gg").click(function (){
+                var val = $("#goto").val();
+                console.log("文本框输入的值是"+val)
+                yy(val);
+            })
 
 
 
-                                })
-                                }
+            $("#publishabc").click(function (){
 
-                            }
-                        })
-
-                        $contentBig.append($titlehr).append($uutr).append($cctr).append($hotFoot);
-                    })
-                    //获取评论信息
-
-                }
-
-        })
+                location.href="${path}/quiz.jsp?category_id="+category_id+"";
+            })
 
             $("#myAttention").click(function (){
                 location.href = "${path}/attention.jsp"
@@ -124,8 +104,177 @@
                 location.href = "${path}/myPublish.jsp"
             })
 
+            //创建类别
+            $("#mkdirId").click(function (){
+                location.href="${path}/mkdirCategory.jsp?name="+category_id+"";
+            })
         })
 
+        function yy(num){
+
+            console.log("options的值是："+options)
+
+            if (options==0){
+                nn=num;
+                $("#myul").empty();
+                $("#mytable").empty();
+                $("#num").css("class","active");
+                $.ajax({
+                    type : "post",
+                    method:"post",
+                    async : true, //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                    url : "${path}/category/queryTwoCategoryFenye", //请求发送到Page处
+                    data : {category_id:category_id,page:num},
+                    dataType : "json", //返回数据形式为json
+                    success:function(data) {
+                        console.log(data);
+                        var ss = data.subsystemList;
+                        console.log(ss);
+                        var total = data.total;
+                        console.log("total"+total);
+                        pageNum=data.num;
+                        console.log(data.num);
+                        $("#pageTotal").text("共"+data.num+"页");
+                        var $ao="        <li id=\"pp\" style=\"cursor: pointer\">\n" +
+                            "            <a aria-label=\"Previous\" id=\"prevStatu\" onclick=\"prevId()\">\n" +
+                            "                <span aria-hidden=\"true\">&laquo;</span>\n" +
+                            "            </a>\n" +
+                            "        </li>";
+                        var $at="            <li  style=\"cursor: pointer\"><a aria-label=\"Next\" id=\"nextStatu\" onclick=\"nextId()\">\n" +
+                            "                <span aria-hidden=\"true\">&raquo;</span>\n" +
+                            "            </a>\n" +
+                            "        </li>";
+                        $("#myul").append($ao);
+                        for (var i in total){
+
+                            var $ah="<li style=\"cursor: pointer\"><a id=\""+total[i]+"\" onclick=\"yy("+total[i]+")\">"+total[i]+"</a></li>";
+                            $("#aa").addClass('active')
+
+                            $("#myul").append($ah);
+                        }
+                        var $total="<span id='tt'>共"+data.num+"页</span>";
+                        $("#goto").val(nn);
+                        $("#myul").append($at);
+                        //
+                        //
+                        //请求成功时执行该函数内容，result即为服务器返回的json对象
+                        $.each(ss,function (index,topic){
+
+                            var user;
+                            //根据话题ID去查询用户
+                            <%--$.ajax({--%>
+                            <%--    type : "post",--%>
+                            <%--    method:"post",--%>
+                            <%--    url : "${path}/user/queryUser", //请求发送到Page处--%>
+                            <%--    data : {id:topic.id},--%>
+                            <%--    dataType : "json", //返回数据形式为json--%>
+                            <%--    success:function (userData){--%>
+                            <%--        //将获得的数据加入col-md-12 column--%>
+
+                            <%--        console.log(userData);--%>
+                            <%--        console.log(userData.username);--%>
+                            <%--        user=userData.username;--%>
+                            <%--        var $ab=--%>
+                            <%--            "<small style='color: red'>[求助]</small>&nbsp;&nbsp;";--%>
+                            <%--        if (topic.status==1){--%>
+                            <%--            $ab="<small style='color: green'>[已解决]</small>&nbsp;&nbsp;";--%>
+                            <%--        }--%>
+                            <%--       --%>
+                            <%--    }--%>
+                            <%--})--%>
+                            var $tr=
+                                " <tr><td class=\"new\"><a target=\"_blank\" href=\"${path}/commen.jsp?id="+topic.id+"&name="+category_id+"\"><span class=\"glyphicon glyphicon-credit-card\"></span></a></td>" +
+                                "<td class=\"common\"><a href=\"${path}/commen.jsp?id="+topic.id+"&name="+category_id+"\">"+topic.description+"</a></td>"+
+                                // "<td class=\"by\">"+userData.username+"</td>"+
+                                <%--"<td class=\"num\"><a href=\"${path}/commen.jsp?id="+topic.id+"\"><span class=\"glyphicon glyphicon-comment\"></span>&nbsp;"+topic.comment+"</a></td>"+--%>
+                                "<td class=\"dd\"><span class=\"glyphicon glyphicon-pencil\"></span>&nbsp;"+topic.create_time+"</a></td></tr></u>";
+                            $("#mytable").append($tr);
+                        })
+
+                    }
+                });
+            }else {
+                nn=num;
+                $("#myul").empty();
+                $("#mytable").empty();
+                $("#num").css("class","active");
+                $.ajax({
+                    type : "post",
+                    method:"post",
+                    async : true, //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                    url : "${path}/category/queryRequest", //请求发送到Page处
+                    data : {id:options,page:num},
+                    dataType : "json", //返回数据形式为json
+                    success:function(data) {
+                        console.log(data);
+                        var ss = data.subsystemList;
+                        console.log(ss);
+                        var total = data.total;
+                        console.log("total"+total);
+                        pageNum=data.num;
+                        console.log(data.num);
+                        $("#pageTotal").text("共"+data.num+"页");
+                        var $ao="        <li id=\"pp\" style=\"cursor: pointer\">\n" +
+                            "            <a aria-label=\"Previous\" id=\"prevStatu\" onclick=\"prevId()\">\n" +
+                            "                <span aria-hidden=\"true\">&laquo;</span>\n" +
+                            "            </a>\n" +
+                            "        </li>";
+                        var $at="            <li  style=\"cursor: pointer\"><a aria-label=\"Next\" id=\"nextStatu\" onclick=\"nextId()\">\n" +
+                            "                <span aria-hidden=\"true\">&raquo;</span>\n" +
+                            "            </a>\n" +
+                            "        </li>";
+                        $("#myul").append($ao);
+                        for (var i in total){
+
+                            var $ah="<li style=\"cursor: pointer\"><a id=\""+total[i]+"\" onclick=\"yy("+total[i]+")\">"+total[i]+"</a></li>";
+                            $("#aa").addClass('active')
+
+                            $("#myul").append($ah);
+                        }
+                        var $total="<span id='tt'>共"+data.num+"页</span>";
+                        $("#goto").val(nn);
+                        $("#myul").append($at);
+                        //
+                        //
+                        //请求成功时执行该函数内容，result即为服务器返回的json对象
+                        $.each(ss,function (index,topic){
+
+                            var user;
+                            var $tr=
+                                " <tr><td class=\"new\"><a target=\"_blank\" href=\"${path}/commen.jsp?id="+topic.id+"&name="+category_id+"\"><span class=\"glyphicon glyphicon-credit-card\"></span></a></td>" +
+                                "<td class=\"common\"><a href=\"${path}/commen.jsp?id="+topic.id+"&name="+category_id+"\">"+topic.description+"</a></td>"+
+                                // "<td class=\"by\">"+userData.username+"</td>"+
+                                <%--"<td class=\"num\"><a href=\"${path}/commen.jsp?id="+topic.id+"\"><span class=\"glyphicon glyphicon-comment\"></span>&nbsp;"+topic.comment+"</a></td>"+--%>
+                                "<td class=\"dd\"><span class=\"glyphicon glyphicon-pencil\"></span>&nbsp;"+topic.create_time+"</a></td></tr></u>";
+                            $("#mytable").append($tr);
+                        })
+
+                    }
+                });
+            }
+
+
+        }
+
+        function nextId(){
+            if (nn==pageNum||nn>pageNum){
+                yy(nn)
+
+            }else {
+                yy(nn+1);
+            }
+
+        }
+        function prevId(){
+            if (nn==1||nn<1){
+                $("#pp").addClass('disabled');
+                yy(nn);
+            }else {
+
+                yy(nn-1);
+            }
+
+        }
     </script>
 </head>
 <body>
@@ -142,17 +291,12 @@
             <div class="navbar-collapse collapse" id="menu-1">
 
                 <ul class="nav navbar-nav">
-                    <li><a href="">关于小知</a></li>
-                    <li><a href="${path}/main.jsp">首页</a></li>
-                    <li><a href="">等你来答</a></li>
+
+                    <li><a href="${path}/homePage.jsp">首页</a></li>
+
                 </ul>
-                <form class="navbar-form navbar-left" role="search">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search">
-                    </div>
-                    <button type="submit" class="   btn btn-default">搜索</button>
-                </form>
-                <a href="${path}/quiz.jsp" type="button" class="navbar-btn btn btn-primary">提问</a>
+
+
                 <div class="navbar-btn navbar-right" style="background-color: transparent" id="photoDiv">
 
                 </div>
@@ -163,19 +307,74 @@
     <!--左侧-->
     <div class="col-md-10" id="contentBig">
 
+            <div id="selsty">
+                <div id="zz">
 
+
+                </div>
+                <div id="ccc">
+                    <select id="select">
+                        <option value="0">根据类别查询</option>
+                    </select>
+                </div>
+            </div>
+            <div id="threadlist" class="tl bm bmw">
+
+                <div class="th" id="leftth">
+                    <table cellspacing="0" cellpadding="0">
+                        <tbody><tr>
+                            <th class="zhu" colspan="6">
+                                <div>
+                                    <span onclick="setatarget(1)" class="y" title="在新窗口中打开帖子">新窗</span>
+                                    <a href="javascript:;" class="showmenu xi2" onclick="showMenu(this.id)">全部主题</a>&nbsp;
+
+                                    <span class="pipe">|</span>
+                                    </span>
+                                </div>
+                            </th>
+
+<%--                            <td class="bys">作者</td>--%>
+<%--                            <td class="look">回复/查看</td>--%>
+                            <td class="dat">发表时间</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <table id="mytable"></table>
+            </div>
+            <div class="pp">
+
+                <nav aria-label="Page navigation">
+                    <a type="button"  style="height: 34px" id="publishabc" class="navbar-btn btn btn-primary">发帖</a>
+                    <a type="button"  style="height: 34px" id="mkdirId" class="navbar-btn btn btn-primary">创建类别</a>
+                    <div id="fo">
+
+
+                        <div class="input-group" id="go">
+                            <span class="input-group-addon" id="pageTotal">ee</span>
+                            <input type="text" style="width: 60px" class="form-control" id="goto">
+
+                            <button class="btn btn-default" type="button" id="gg">Go!</button>
+                            </span>
+                        </div>
+                        <ul class="pagination" id="myul">
+
+
+                        </ul>
+                    </div>
+                </nav>
+            </div>
     </div>
     <!--右侧-->
-    <div class="col-md-2">
+    <div class="col-md-2" id="rig">
         <ul class="list-group">
-            <li class="list-group-item">写回答</li>
-            <li class="list-group-item">我的草稿</li>
-            <li class="list-group-item">我的收藏</li>
+
             <button class="list-group-item" id="myAttention">我关注的问题</button>
             <button id="myQuiz" class="list-group-item">我发出的问题</button>
         </ul>
     </div>
 </div>
+
 
 
 </body>

@@ -14,7 +14,7 @@
     <select id="queryById" resultMap="LogMap">
         select
           ID, USERNAME, DATETIME, OPTIONS, STATUS
-        from xiaozhi.log
+        from mysql.forum_log
         where ID = #{id}
     </select>
 
@@ -22,7 +22,7 @@
     <select id="queryAllByLimit" resultMap="LogMap">
         select
           ID, USERNAME, DATETIME, OPTIONS, STATUS
-        from xiaozhi.log
+        from mysql.forum_log
         limit #{offset}, #{limit}
     </select>
 
@@ -30,7 +30,7 @@
     <select id="queryAll" resultMap="LogMap">
         select
         ID, USERNAME, DATETIME, OPTIONS, STATUS
-        from xiaozhi.log
+        from mysql.forum_log
         <where>
             <if test="id != null and id != ''">
                 and ID = #{id}
@@ -52,12 +52,12 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="" useGeneratedKeys="true">
-        insert into xiaozhi.log(ID, USERNAME, DATETIME, OPTIONS, STATUS)
+        insert into mysql.forum_log(ID, USERNAME, DATETIME, OPTIONS, STATUS)
         values (#{id}, #{username}, #{datetime}, #{options}, #{status})
     </insert>
 
     <insert id="insertBatch" keyProperty="" useGeneratedKeys="true">
-        insert into xiaozhi.log(ID, USERNAME, DATETIME, OPTIONS, STATUS)
+        insert into mysql.forum_log(ID, USERNAME, DATETIME, OPTIONS, STATUS)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.id}, #{entity.username}, #{entity.datetime}, #{entity.options}, #{entity.status})
@@ -65,7 +65,7 @@
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="" useGeneratedKeys="true">
-        insert into xiaozhi.log(ID, USERNAME, DATETIME, OPTIONS, STATUS)
+        insert into mysql.forum_log(ID, USERNAME, DATETIME, OPTIONS, STATUS)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.id}, #{entity.username}, #{entity.datetime}, #{entity.options}, #{entity.status})
@@ -77,7 +77,7 @@
 
     <!--通过主键修改数据-->
     <update id="update">
-        update xiaozhi.log
+        update mysql.forum_log
         <set>
             <if test="id != null and id != ''">
                 ID = #{id},
@@ -100,7 +100,7 @@
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from xiaozhi.log where ID = #{id}
+        delete from mysql.forum_log where ID = #{id}
     </delete>
 
 </mapper>

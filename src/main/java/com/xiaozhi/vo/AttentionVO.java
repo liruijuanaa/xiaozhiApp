@@ -11,6 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AttentionVO {
-    private String user_id;
-    private String topic_id;
+    private int user_id;
+    private int topic_id;
 }

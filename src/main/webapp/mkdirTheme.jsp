@@ -19,66 +19,32 @@
     <link rel="stylesheet" type="text/css" href="${path}/style/css/bootstrap.css"/>
 
     <script src="${path}/style/js/bootstrap.min.js"></script>
-    <style>
-        select{
-            border-radius: 5px;
-            height: 30px;
-        }
-    </style>
     <script>
         $(function (){
             var user_id = sessionStorage.getItem("id");
             var category_id = window.location.href.split("=")[1];
+
+
             var username = sessionStorage.getItem("uname");
-            var options=$("#select option:first");
-            var $sel = $("#select");
-            $sel.change(function (){
-                options = $("#select option:selected");
-                // alert(options.val())
 
-            })
 
-            var $za="<span style=\"color: lightgray\" class=\"glyphicon glyphicon-home\" aria-hidden=\"true\"></span><em> > </em><a href=\"${path}/homePage.jsp?username="+username+"\">论坛首页</a><em>></em><a href=\"${path}/main.jsp?category_id="+category_id+"\">"+category_id+"</a></div>";
-            $("#zz").append($za);
-
-            var two_id;
-            $.ajax({
-                type : "post",
-                method:"post",
-                async : true, //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
-                url : "${path}/category/queryTwoCategory", //请求发送到Page处
-                data : {category_id:category_id},
-                dataType : "json", //返回数据形式为json
-                success:function(data) {
-                    console.log(data);
-                    $.each(data,function (index,cat){
-
-                        var $op="<option value=\""+cat.id+"\">"+cat.description+"</option>";
-                        $sel.append($op);
-                    })
-                }
-            });
-            console.log("two_id  "+two_id);
 
             $("#publishID").click(function (){
 
-                if (options.val()==0){
-                    alert("请选择类别")
-                }else {
-                    var cont = $("#publishtext").val();
-                    console.log(cont)
+
                     var tt = $('#c_title').val();
+                var icon = $('#c_icon').val();
                     $.ajax({
-                        url: "${path}/topic/addTopic",
+                        url: "${path}/topic/addTheme",
                         dataType: "text",
                         type: "post",
 
-                        data: {title:tt, content:cont, user_id:user_id,category_id:options.val()},
+                        data: {title:tt, user_id:user_id, icon:icon},
                         success:function (data){
-                            location.href="${path}/main.jsp?category_id="+category_id+"";
+                            location.href="${path}/homePage.jsp?username="+username+"";
                         }
                     })
-                }
+
 
 
             })
@@ -124,33 +90,24 @@
     </div>
     <!--左侧-->
     <div class="col-md-10">
-        <div id="zz">
 
-            <div class="z">
 
-            </div>
-        </div>
-        <div>
-            <select id="select">
-                <option value="0">请选择发帖类别</option>
-            </select>
-        </div>
 
         <!--热榜-->
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3>提问</h3>
+                <h3>添加主题</h3>
             </div>
             <!--问题浏览-->
             <div class="panel-body" id="panelList">
                 <form id="publishForm">
                     <div>
-                        <input class="form-control" type="text" name="title" id="c_title" placeholder="标题...">
+                        <input class="form-control" type="text" name="title" id="c_title" placeholder="主题名...">
                     </div>
-                    <div class="form-group">
-                        <textarea id="publishtext" rows="5px" class="form-control" placeholder="话题内容..."></textarea>
+                    <div>
+                        <input class="form-control" type="text" name="icon" id="c_icon" placeholder="icon...">
                     </div>
-                    <button id="publishID" type="button" class="btn btn-primary block full-width m-b">发表</button>
+                    <button id="publishID" type="button" class="btn btn-primary block full-width m-b">添加</button>
                 </form>
             </div>
         </div>

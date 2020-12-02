@@ -21,7 +21,7 @@ public interface UserDao {
      * @param id 主键
      * @return 实例对象
      */
-    User queryById(String id);
+    User queryById(int id);
 
     /**
      * 查询指定行数据
@@ -79,7 +79,7 @@ public interface UserDao {
      * @param id 主键
      * @return 影响行数
      */
-    int deleteById(String id);
+    int deleteById(int id);
     /**
      * 通过用户名、密码、验证码验证
      *
@@ -89,14 +89,28 @@ public interface UserDao {
     int insertAttention(AttentionVO attentionVO);
 
     //取消关注
-    int delAttention(@Param("user_id") String user_id,@Param("topic_id") String topic_id);
+    int delAttention(@Param("user_id") int user_id,@Param("topic_id") int topic_id);
 
     //查询关注问题
-    List<AttentionVO> queryAttention(String id);
+    List<AttentionVO> queryAttention(@Param("id") int id, @Param("start") int start);
 
     //查询发表问题
-    List<MyQuizVO> queryQuiz(String id);
+    List<MyQuizVO> queryQuiz(int id);
 
     //删除发表
-    int delQuiz(@Param("user_id") String user_id,@Param("topic_id") String topic_id);
+    int delQuiz(@Param("user_id") int user_id,@Param("topic_id") int topic_id);
+
+    //根据用户名去查询用户
+    User queryByOneName(String username);
+
+    int queryPub(int id);
+
+    //根据话题ID去查询用户
+    User queryUser(String id);
+
+    //查询用户关注话题的个数
+    int getAttNum(int id);
+
+    //查询是否关注问题
+    List<AttentionVO> queryIfAtten(@Param("id") int id);
 }

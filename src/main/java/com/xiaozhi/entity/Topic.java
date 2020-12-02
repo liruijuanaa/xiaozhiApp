@@ -1,10 +1,13 @@
 package com.xiaozhi.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,5 +30,14 @@ public class Topic implements Serializable {
 
     private Integer comment;
 
+    private String content;
+
+    private Integer status;
+
+    private Integer category_id;
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
+    private Date publish_date;
 //    private List<Comment> commentList;
 }

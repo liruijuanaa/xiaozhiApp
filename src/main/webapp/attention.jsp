@@ -19,47 +19,83 @@
     <link rel="stylesheet" type="text/css" href="${path}/style/css/bootstrap.css"/>
 
     <script src="${path}/style/js/bootstrap.min.js"></script>
-    <script>
-        $(function (){
-            var uid = sessionStorage.getItem("id");
-            var $panelList=$("#panelList");
-            // var $aa = $("#aaa");
-            $.ajax({
-                url:"${path}/user/queryAtten",
-                dataType:"json",
-                type:"post",
-                data:{id:uid},
-                success:function (data){
-                    // console.log(data)
-                    $.each(data,function (index,atten){
-                        console.log(atten.topic_id)
-                        $.ajax({
-                            url:"${path}/topic/selectOne",
-                            dataType: "json",
-                            type: "post",
-                            data:{id:atten.topic_id},
-                            success:function (data){
-                                console.log(data)
-                                var $titlehr="<div class=\"panel\">\n" +
-                                    "                            <div class=\"panel-body\">\n" +
-                                    "                                <p>\n" +
-                                    "                                    <h3><a href=\"${path}/commen.jsp?id="+data.id+"\">"+data.title+"</a></h3>" +
-                                    "                                </p>\n" +
-                                    "                            </div>";
-                                var $cctr=" <div class=\"panel-footer\" style=\"background-color: white;\">\n" +
-                                    "                                <span class=\"glyphicon glyphicon-thumbs-up\"></span>"+data.prise+"赞<span class=\"glyphicon glyphicon-comment\"></span>&nbsp;"+data.comment+"条评论</a>\n" +
-                                    "                                &nbsp;&nbsp;\n" +
-                                    "                        </div>";
-                                <%--var $titlehr=" <h3><a href=\"${path}/commen.jsp?id="+data.id+"\">"+data.title+"</a></h3>";--%>
-                                // var $prisetr="<span class=\"glyphicon glyphicon-thumbs-up\"></span>"+data.prise+"赞</a>";
-                                // var $comment="<span class=\"glyphicon glyphicon-comment\"></span>&nbsp;"+data.comment+"条评论</a>";
-                                $panelList.append($titlehr).append($cctr);
+    <style>
+        .new{
+            width: 30px;
+            padding-left: 10px;
+            padding-top: 10px;
+            padding-right: 10px;
+        }
+        nav{
+            width: 938px;
+            display: flex;
+            float: right;
+        }
+        .pagination{
+            float: right;
+        }
+        .pagination li:active{
+            background-color: black;
+        }
+        #go{
+            width: 200px;
+            float: right;
+            margin: 20px;
+            margin-right: 0;
+            padding-right: 0;
+        }
+        .pp{
+            width: 938px;
 
-                            }
-                        })
-                    })
-                }
+        }
+        #tt{
+            height: 40px;
+            padding-left: 50px;
+            margin-top: 80px;
+        }
+        #fo{
+            width: 753px;
+            float: right;
+        }
+        #publishabc{
+
+            height: 34px;
+            width: 70px;
+            margin-top: 20px;
+            margin-right: 150px;
+        }
+        .bmw {
+            border: 1px solid #CDCDCD;
+        }
+        .bm {
+            border: 1px solid #CDCDCD;
+            background: #FFF;
+        }
+        .bm, .bn {
+            margin-bottom: 10px;
+        }
+        #zz{
+            padding-bottom: 7px;
+        }
+        #rig{
+            padding-top: 23px;
+        }
+    </style>
+    <script>
+        var uid;
+        var $panelList;
+        $(function (){
+             uid= sessionStorage.getItem("id");
+            $panelList=$("#panelList");
+            // var $aa = $("#aaa");
+
+            yy(1);
+            $("#gg").click(function (){
+                var val = $("#goto").val();
+                console.log("文本框输入的值是"+val)
+                yy(val);
             })
+
             $("#myAttention").click(function (){
                 location.href = "${path}/attention.jsp"
             })
@@ -67,6 +103,121 @@
                 location.href = "${path}/myPublish.jsp"
             })
         })
+
+        var nn;
+        var pageNum;
+        function yy(num){
+            nn=num;
+            $("#myul").empty();
+            $panelList.empty();
+            $("#num").css("class","active");
+            $.ajax({
+                url:"${path}/user/queryAtten",
+                dataType:"json",
+                type:"post",
+                data:{id:uid,page:num},
+                success:function (data){
+                    console.log(data)
+
+                    var ss = data.attlist;
+                    var total = data.total;
+                    console.log(ss);
+                    // console.log("total"+total);
+                    pageNum=data.num;
+                    $("#pageTotal").text("共"+data.num+"页");
+                    var $ao="        <li id=\"pp\" style=\"cursor: pointer\">\n" +
+                        "            <a aria-label=\"Previous\" id=\"prevStatu\" onclick=\"prevId()\">\n" +
+                        "                <span aria-hidden=\"true\">&laquo;</span>\n" +
+                        "            </a>\n" +
+                        "        </li>";
+                    var $at="            <li  style=\"cursor: pointer\"><a aria-label=\"Next\" id=\"nextStatu\" onclick=\"nextId()\">\n" +
+                        "                <span aria-hidden=\"true\">&raquo;</span>\n" +
+                        "            </a>\n" +
+                        "        </li>";
+                    $("#myul").append($ao);
+                    for (var i in total){
+
+                        var $ah="<li style=\"cursor: pointer\"><a id=\""+total[i]+"\" onclick=\"yy("+total[i]+")\">"+total[i]+"</a></li>";
+                        $("#aa").addClass('active')
+
+                        $("#myul").append($ah);
+                    }
+                    var $total="<span id='tt'>共"+data.num+"页</span>";
+                    $("#goto").val(nn);
+                    $("#myul").append($at);
+
+                    $.each(ss,function (index,atten){
+                        console.log(atten.topic_id);
+
+                        <%--var $titlehr="<div class=\"panel\">\n" +--%>
+                        <%--    "                            <div class=\"panel-body\">\n" +--%>
+                        <%--    "                                <p>\n" +--%>
+                        <%--    "                                    <h3><a href=\"${path}/commen.jsp?id="+atten.id+"\">"+atten.name+"</a></h3>" +--%>
+                        <%--    "                                </p>\n" +--%>
+                        <%--    "                            </div>";--%>
+
+                        <%--$panelList.append($titlehr);--%>
+
+                        $.ajax({
+                            url:"${path}/topic/selectOne",
+                            dataType: "json",
+                            type: "post",
+                            data:{id:atten.topic_id},
+                            success:function (data){
+                                // var themeNa;
+                                //根据icon去查询等级为0的
+                                $.ajax({
+                                    url:"${path}/topic/queryThemeName",
+                                    dataType:"json",
+                                    type:"post",
+                                    data:{icon:data.icon},
+                                    success:function (dd){
+                                       var themeNa = dd.name;
+
+                                        console.log(data)
+                                        var $titlehr="<div class=\"panel\">\n" +
+                                            "                            <div class=\"panel-body\">\n" +
+                                            "                                <p>\n" +
+                                            "                                    <h3><a href=\"${path}/commen.jsp?id="+data.id+"&name="+themeNa+"\">"+data.name+"</a></h3>" +
+                                            "                                </p>\n" +
+                                            "                            </div>";
+                                        var $cctr=" <div class=\"panel-footer\" style=\"background-color: white;\">\n" +
+
+                                            "                        </div>";
+                                        <%--var $titlehr=" <h3><a href=\"${path}/commen.jsp?id="+data.id+"\">"+data.title+"</a></h3>";--%>
+                                        // var $prisetr="<span class=\"glyphicon glyphicon-thumbs-up\"></span>"+data.prise+"赞</a>";
+                                        // var $comment="<span class=\"glyphicon glyphicon-comment\"></span>&nbsp;"+data.comment+"条评论</a>";
+                                        $panelList.append($titlehr).append($cctr);
+                                    }
+                                })
+
+
+
+                            }
+                        })
+                    })
+                }
+            })
+        }
+        function nextId(){
+            if (nn==pageNum||nn>pageNum){
+                yy(nn)
+
+            }else {
+                yy(nn+1);
+            }
+
+        }
+        function prevId(){
+            if (nn==1||nn<1){
+                $("#pp").addClass('disabled');
+                yy(nn);
+            }else {
+
+                yy(nn-1);
+            }
+
+        }
     </script>
 </head>
 <body>
@@ -83,17 +234,12 @@
             <div class="navbar-collapse collapse" id="menu-1">
 
                 <ul class="nav navbar-nav">
-                    <li><a href="">关于小知</a></li>
-                    <li><a href="${path}/main.jsp">首页</a></li>
-                    <li><a href="">等你来答</a></li>
+
+                    <li><a href="${path}/homePage.jsp">首页</a></li>
+
                 </ul>
-                <form class="navbar-form navbar-left" role="search">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search">
-                    </div>
-                    <button type="submit" class="   btn btn-default">搜索</button>
-                </form>
-                <a href="${path}/quiz.jsp" type="button" class="navbar-btn btn btn-primary">提问</a>
+
+<%--                <a href="${path}/quiz.jsp" type="button" class="navbar-btn btn btn-primary">发帖</a>--%>
                 <div class="navbar-btn navbar-right" style="background-color: transparent" id="photoDiv">
 
                 </div>
@@ -125,13 +271,31 @@
             </div>
         </div>
 
+        <div class="pp">
+
+            <nav aria-label="Page navigation">
+
+                <div id="fo">
+
+
+                    <div class="input-group" id="go">
+                        <span class="input-group-addon" id="pageTotal">ee</span>
+                        <input type="text" style="width: 60px" class="form-control" id="goto">
+
+                        <button class="btn btn-default" type="button" id="gg">Go!</button>
+                        </span>
+                    </div>
+                    <ul class="pagination" id="myul">
+
+
+                    </ul>
+                </div>
+            </nav>
+        </div>
     </div>
     <!--右侧-->
     <div class="col-md-2">
         <ul class="list-group">
-            <li class="list-group-item">写回答</li>
-            <li class="list-group-item">我的草稿</li>
-            <li class="list-group-item">我的收藏</li>
             <button class="list-group-item" id="myAttention">我关注的问题</button>
             <button id="myQuiz" class="list-group-item">我发出的问题</button>
         </ul>

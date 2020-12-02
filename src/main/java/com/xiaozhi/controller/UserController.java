@@ -49,24 +49,24 @@ public class UserController {
     /**
      * 通过主键查询单条数据
      *
-     * @param id 主键
+     * @param  主键
      * @return 单条数据
      */
     @RequestMapping("selectOne")
     @ResponseBody
-    public User selectOne(String id) {
-        System.out.println("啊啊啊啊啊"+id);
-        return this.userService.queryById(id);
+    public User selectOne(String username) {
+        System.out.println("啊啊啊啊啊"+username);
+        return this.userService.queryByOneName(username);
     }
 
     @RequestMapping("login")
     @ResponseBody
-    public Map<String,String> login(String username, String password){
+    public Map<String,Object> login(String username, String password){
 //        System.out.println("这里是登录验证controller");
 //        System.out.println(username);
 
 //        Md5Hash md5Hash = new Md5Hash(password,"abcd",1024);
-        Map<String, String> map =this.userService.queryByName(username,password);
+        Map<String, Object> map =this.userService.queryByName(username,password);
         System.out.println("map"+map);
         return map;
     }
@@ -74,72 +74,97 @@ public class UserController {
     //注册用户
     @RequestMapping("addUser")
 
-    public String addUser(String username,String password, MultipartFile file){
+    public String addUser(String username,String password){
 
-                System.out.println(username+password+file);
-
-        //1. 获得 upload的路径
-        String realPath = session.getServletContext().getRealPath("/upload/img");
-        //2. 判断文件夹是否存在
-        File file1 = new File(realPath);
-        if(!file1.exists()){
-            file1.mkdirs();
-        }
-        //3.获取文件真实名字
-        String originalFilename = file.getOriginalFilename();
-        //4. 为了防止同一个文件多次上传发生覆盖  拼接时间戳
-        String name = new Date().getTime()+"_"+originalFilename;
-        //5.文件上传
-        try {
-            file.transferTo(new File(realPath,name));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String photo="/upload/img/"+name;
-        System.out.println("photourl"+photo);
-        User user=new User("1",username,password,photo);
+//                System.out.println(username+password+file);
+//
+//        //1. 获得 upload的路径
+//        String realPath = session.getServletContext().getRealPath("/upload/img");
+//        //2. 判断文件夹是否存在
+//        File file1 = new File(realPath);
+//        if(!file1.exists()){
+//            file1.mkdirs();
+//        }
+//        //3.获取文件真实名字
+//        String originalFilename = file.getOriginalFilename();
+//        //4. 为了防止同一个文件多次上传发生覆盖  拼接时间戳
+//        String name = new Date().getTime()+"_"+originalFilename;
+//        //5.文件上传
+//        try {
+//            file.transferTo(new File(realPath,name));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        String photo="/upload/img/"+name;
+//        System.out.println("photourl"+photo);
+        User user=new User(011,username,password,"comm","","","",new Date());
         this.userService.insert(user);
         return "redirect:/login.jsp";
     }
 
     @RequestMapping("addAtten")
     @ResponseBody
-    public int addAtten(String user_id,String topic_id){
+    public int addAtten(int user_id,int topic_id){
         System.out.println("调用添加关注");
+
         AttentionVO attentionVO=new AttentionVO(user_id,topic_id);
         int i = this.userService.insertAttention(attentionVO);
+
         return i;
     }
 
     @RequestMapping("delAtten")
     @ResponseBody
-    public int delAtten(String user_id,String topic_id){
+    public int delAtten(int user_id,int topic_id){
+
         System.out.println("调用取消关注");
         return this.userService.delAttention(user_id,topic_id);
     }
 
     @RequestMapping("delQuiz")
-    @ResponseBody
-    public int delQuiz(String user_id,String topic_id){
+    public String delQuiz(int user_id,int topic_id){
         System.out.println(topic_id);
         System.out.println("调用aaaaaaaaa");
+        userService.delQuiz(user_id,topic_id);
         topicService.deleteById(topic_id);
-        return this.userService.delQuiz(user_id,topic_id);
+        return "redirect:/myPublish.jsp";
     }
 
     @RequestMapping("queryAtten")
     @ResponseBody
-    public List<AttentionVO> queryAtten(String id){
+    public Map<String, Object> queryAtten(int id, int page){
         System.out.println("调用查询关注");
         System.out.println("传递ID为："+id);
-        return this.userService.queryAttention(id);
+        return this.userService.queryAttention(id,page);
+    }
+
+    @RequestMapping("queryIfAtten")
+    @ResponseBody
+    public List<AttentionVO> queryAtten(int id){
+        System.out.println("调用查询关注");
+        System.out.println("传递ID为："+id);
+        return this.userService.queryIfAtten(id);
     }
 
     @RequestMapping("queryQuiz")
     @ResponseBody
-    public List<MyQuizVO> queryQuiz(String id){
+    public List<MyQuizVO> queryQuiz(int id){
         System.out.println("调用查询关注");
         System.out.println("传递ID为："+id);
         return this.userService.queryQuiz(id);
+    }
+
+    @RequestMapping("queryPub")
+    @ResponseBody
+    public  User queryPub(int id){
+        int user_id = this.userService.queryPub(id);
+        User user = this.userService.queryById(user_id);
+        return user;
+    }
+
+    @RequestMapping("queryUser")
+    @ResponseBody
+    public User queryUser(String id){
+        return this.userService.queryUser(id);
     }
 }

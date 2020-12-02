@@ -52,6 +52,7 @@ public class LogServiceImpl implements LogService {
      * @param log 实例对象
      * @return 实例对象
      */
+
     @Override
     public int insert(Log log) {
         int insert = this.logDao.insert(log);
@@ -79,7 +80,8 @@ public class LogServiceImpl implements LogService {
      */
     @AddLog(value = "删除日志")
     @Override
-    public boolean deleteById(String id) {
-        return this.logDao.deleteById(id) > 0;
+    public void deleteById(String id) {
+        this.logDao.deleteById(id);
+
     }
 }

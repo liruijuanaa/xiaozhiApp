@@ -2,6 +2,7 @@ package com.xiaozhi.service.impl;
 
 import com.xiaozhi.dao.CommentDao;
 import com.xiaozhi.entity.Comment;
+import com.xiaozhi.entity.Subsystem;
 import com.xiaozhi.service.CommentService;
 import com.xiaozhi.vo.CommentVO;
 import org.springframework.stereotype.Service;
@@ -81,9 +82,9 @@ public class CommentServiceImpl implements CommentService {
      * @return 实例对象
      */
     @Override
-    public Comment insert(Comment comment) {
-        this.commentDao.insert(comment);
-        return comment;
+    public Subsystem insert(Subsystem subsystem) {
+        this.commentDao.insert(subsystem);
+        return subsystem;
     }
 
     /**
@@ -114,10 +115,13 @@ public class CommentServiceImpl implements CommentService {
         return false;
     }
     @Override
-    public List<CommentVO> queryComment(String id,Integer limit) {
+    public List<CommentVO> queryComment(int id) {
 
-        return this.commentDao.queryComment(id,limit);
+        return this.commentDao.queryComment(id);
     }
 
-
+    @Override
+    public List<Comment> queryCom() {
+        return this.commentDao.queryCom();
+    }
 }

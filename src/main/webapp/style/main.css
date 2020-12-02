@@ -1,0 +1,148 @@
+.mytable{
+    width: 938px;
+    height: 380px;
+
+
+}
+tr{
+    width: 938px;
+    height: 39px;
+}
+#select{
+    border-radius: 5px;
+    height: 30px;
+    padding-bottom: 7px;
+    display:inline-block;
+}
+#ccc{
+    width: auto;
+    float: right;
+    display:inline-block;
+    padding-bottom: 7px;
+}
+#zz{
+    width: 300px;
+    height: 30px;
+    padding-bottom: 12px;
+    display:inline-block;
+}
+#selsty{
+    width: 750px;
+    height: 35px;
+
+}
+td {
+    padding: 5px 0;
+    border-bottom: 1px solid #C2D5E3;
+}
+td.by {
+     width: 105px;
+     line-height: 14px;
+ }
+td.bys {
+    width: 75px;
+    line-height: 14px;
+}
+td.num {
+    width: 130px;
+}
+td.common{
+    width: 480px;
+    height: 39px;
+}
+td.dd{
+    width: 200px;
+}
+.th{
+    margin-top: 1px;
+    padding: 0 10px;
+    background: #F2F2F2;
+    width: 920px;
+    height: 39px;
+    border-bottom: 1px solid #C2D5E3;
+}
+th.zhu{
+    width: 390px;
+    height: 39px;
+}
+.dat{
+    width: 160px;
+}
+.look{
+    width: 100px;
+}
+.new{
+    width: 30px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+}
+nav{
+    width: 780px;
+    display: flex;
+    float: right;
+}
+.pagination{
+    float: right;
+}
+.pagination li:active{
+    background-color: black;
+}
+#go{
+    width: 200px;
+    float: right;
+    margin: 20px;
+}
+.pp{
+    width: 780px;
+
+}
+a:active{
+    background-color: black;
+}
+
+li:active{
+    background-color: black;
+}
+
+
+#tt{
+    height: 40px;
+    padding-left: 50px;
+    margin-top: 80px;
+}
+#fo{
+    width: 580px;
+    float: right;
+}
+#publishabc{
+
+    height: 34px;
+    width: 70px;
+    margin-top: 20px;
+    margin-right: 10px;
+}
+#mkdirId{
+
+    height: 34px;
+    width: 100px;
+    margin-top: 20px;
+
+}
+.bmw {
+    border: 1px solid #CDCDCD;
+}
+.bm {
+    border: 1px solid #CDCDCD;
+    background: #FFF;
+}
+.bm, .bn {
+    margin-bottom: 10px;
+}
+
+#rig{
+    padding-top: 30px;
+}
+#leftth{
+    width: 753px;
+}

@@ -1,6 +1,8 @@
 package com.xiaozhi.service;
 
+import com.xiaozhi.entity.Subsystem;
 import com.xiaozhi.entity.Topic;
+import com.xiaozhi.vo.MyAnswerVO;
 import com.xiaozhi.vo.MyQuizVO;
 
 import java.util.List;
@@ -19,16 +21,15 @@ public interface TopicService {
      * @param id 主键
      * @return 实例对象
      */
-    Topic queryById(String id);
+    Subsystem queryById(int id);
 
     /**
      * 查询多条数据
      *
-     * @param offset 查询起始位置
-     * @param limit  查询条数
+     * @param
      * @return 对象列表
      */
-    List<Topic> queryAllByLimit(int offset, int limit);
+    List<Topic> queryAllTwo(String id);
 
     /**
      * 新增数据
@@ -36,7 +37,7 @@ public interface TopicService {
      * @param topic 实例对象
      * @return 实例对象
      */
-    Topic insert(String title);
+    Subsystem insert(String title, String content, int category_id);
 
     /**
      * 修改数据
@@ -44,7 +45,7 @@ public interface TopicService {
      * @param topic 实例对象
      * @return 实例对象
      */
-    Topic update(Topic topic);
+    Subsystem update(Subsystem subsystem);
 
     /**
      * 通过主键删除数据
@@ -52,7 +53,7 @@ public interface TopicService {
      * @param id 主键
      * @return 是否成功
      */
-    boolean deleteById(String id);
+    boolean deleteById(int id);
 
     /**
      * 热股榜
@@ -63,4 +64,14 @@ public interface TopicService {
      * 用户发表提问
      * */
     int insertQuiz(MyQuizVO quizVO);
+
+    int insertAns(MyAnswerVO answerVO);
+
+    Subsystem insertTheme(String title,String icon);
+
+    int selectSector();
+
+    Subsystem insertCate(String title,int user_id,String fatherName);
+
+    Subsystem queryThemeName(String icon);
 }

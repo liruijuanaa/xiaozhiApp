@@ -1,6 +1,7 @@
 package com.xiaozhi.service;
 
 import com.xiaozhi.entity.Comment;
+import com.xiaozhi.entity.Subsystem;
 import com.xiaozhi.vo.CommentVO;
 
 import java.util.List;
@@ -37,7 +38,7 @@ public interface CommentService {
      * @param comment 实例对象
      * @return 实例对象
      */
-    Comment insert(Comment comment);
+    Subsystem insert(Subsystem subsystem);
 
     /**
      * 修改数据
@@ -54,7 +55,9 @@ public interface CommentService {
      * @return 是否成功
      */
     boolean deleteById(String id);
-    List<CommentVO> queryComment(String id,Integer limit);
+    List<CommentVO> queryComment(int id);
 
     int queryNum();
+
+    List<Comment> queryCom();
 }

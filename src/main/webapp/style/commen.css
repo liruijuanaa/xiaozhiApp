@@ -1,0 +1,565 @@
+.pl {
+}
+.bm {
+    border: 1px solid #CDCDCD;
+    background: #FFF;
+}
+.bm, .bn {
+    margin-bottom: 10px;
+}
+table {
+    empty-cells: show;
+    border-collapse: collapse;
+}
+.pls {
+    width: 160px;
+    background: #E5EDF2;
+    overflow: hidden;
+    border-right: 1px solid #C2D5E3;
+}
+.plc, .pls {
+    vertical-align: top;
+}
+.pbn {
+    padding-bottom: 5px !important;
+}
+.ptn {
+    padding-top: 5px !important;
+}
+.hm {
+    text-align: center;
+}
+.ptn {
+    padding-top: 5px !important;
+}
+.xg1, .xg1 a {
+    color: #999 !important;
+}
+* {
+    word-wrap: break-word;
+}
+
+.xi1, .onerror {
+    color: #F26C4F;
+}
+.pipe {
+    margin: 0 5px;
+    color: #CCC;
+}
+.xg1, .xg1 a {
+    color: #999 !important;
+}
+#postlist .vwthd {
+    position: relative;
+    overflow: visible;
+    padding-right: 115px !important;
+    display: block;
+    z-index: 99;
+}
+.plc {
+    padding: 0 20px;
+
+}
+.plc, .pls {
+    vertical-align: top;
+}
+/*.vwthd {*/
+/*    padding-right: 80px !important;*/
+/*}*/
+.ptm {
+    padding-top: 10px !important;
+}
+.pbn {
+    padding-bottom: 5px !important;
+}
+.vwthd div.y {
+    display: inline;
+    margin-right: -60px;
+}
+.y {
+    float: right;
+}
+a {
+    color: #333;
+    text-decoration: none;
+}
+.vm {
+    vertical-align: middle;
+}
+a img {
+    border: none;
+}
+.ts {
+    display: inline;
+    font: 700 16px 'Microsoft Yahei','Hei',Tahoma,'SimHei',sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-size: 1em;
+}
+body, ul, ol, li, dl, dd, p, h1, h2, h3, h4, h5, h6, form, fieldset, .pr, .pc {
+    margin: 0;
+    padding: 0;
+}
+.xg1, .xg1 a {
+    color: #999 !important;
+}
+.comiis_code {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+}
+.comiis_code .comiis_code_img1 {
+    width: 45px;
+    height: 38px;
+    background: url(source/plugin/comiis_code/comiis_img/comiis_code1.png) no-repeat;
+}
+#comiis_code_menu {
+    z-index: 301;
+    border: #CCC 1px solid;
+    padding: 15px 10px;
+    position: absolute;
+    width: 190px;
+    background: #fafafa;
+    height: 252px;
+    top: -1px;
+    right: -1px;
+    cursor: pointer;
+}
+#comiis_code_menu p {
+    text-align: center;
+}
+#comiis_code_menu .comiis_txt1gzra {
+    font: 500 16px/38px "Microsoft Yahei";
+    COLOR: #333;
+}
+#comiis_code_menu li {
+    text-align: center;
+    line-height: 26px;
+    height: 26px;
+}
+ul li, .xl li {
+    list-style: none;
+}
+#comiis_code_menu .comiis_txt2vuba {
+    font: 500 12px/38px "Microsoft Yahei";
+    COLOR: #666;
+}
+#comiis_code_menu .comiis_txt3hhig {
+    font: 500 12px/38px "Microsoft Yahei";
+}
+#comiis_code_menu .comiis_txt2vuba EM {
+    margin: 0px 2px;
+}
+em, cite, i {
+    font-style: normal;
+}
+#comiis_code_menu .comiis_txt2vuba IMG {
+    margin-top: -3px;
+    vertical-align: middle;
+}
+#comiis_code_menu .comiis_txt3hhig A {
+    color: #bebebe;
+}
+a {
+    color: #333;
+    text-decoration: none;
+}
+.pl table {
+    table-layout: fixed;
+    width: 100%;
+}
+.ad .pls {
+    background: #C2D5E3;
+    padding: 0;
+    height: 4px;
+}
+.pls {
+    width: 160px;
+    background: #E5EDF2;
+    overflow: hidden;
+    border-right: 1px solid #C2D5E3;
+}
+.plc, .pls {
+    vertical-align: top;
+}
+.ad .plc {
+    background: #E5EDF2;
+    padding: 0;
+    overflow: hidden;
+}
+.plc {
+    padding: 0 20px;
+}
+.pls .favatar {
+    background: transparent;
+    height: auto;
+    border-width: 0px;
+    overflow: visible;
+}
+.pls .pi {
+    padding-left: 15px;
+}
+.pi {
+    overflow: hidden;
+    margin-bottom: 10px;
+    padding: 10px 0;
+
+    height: 16px;
+    border-bottom: 1px dashed #CDCDCD;
+}
+.xw1 {
+    font-weight: 700;
+}
+.card_gender_1 {
+    background: #bbebf9 url(https://www.discuz.net/static/image/common/gentlemanbg.png) no-repeat bottom right;
+}
+.bui {
+    position: absolute;
+    margin: -1px 0 0 -1px;
+
+    padding: 15px 0 15px 20px;
+    width: 430px !important;
+    border: 1px solid #CDCDCD;
+
+    -webkit-box-shadow: 2px 2px 3px #CCC;
+
+}
+.card_gender_1 {
+    background: #bbebf9 url(https://www.discuz.net/static/image/common/gentlemanbg.png) no-repeat bottom right;
+}
+.p_pop, .p_pof, .sllt {
+
+    min-width: 60px;
+
+}
+.z {
+    float: left;
+}
+.bui .i {
+    width: 290px;
+}
+.y {
+    float: right;
+}
+.blk a, .inlinelist a {
+    display: inline;
+    padding: 0;
+    border: none;
+}
+.p_pop a {
+    /*display: block;*/
+    /*padding: 3px 5px;*/
+    /*border-bottom: 1px solid #E5EDF2;*/
+    white-space: nowrap;
+}
+.xi2, .xi2 a, .xi3 a {
+    color: #369;
+}
+.pls p, .pls .pil, .pls .o {
+    margin: 5px 10px 5px 20px;
+}
+.bui dt {
+    width: 4.5em;
+}
+.pls dt {
+    margin-right: 3px;
+    width: 55px;
+}
+.pls dd, .pls dt {
+    float: left;
+    overflow: hidden;
+    height: 1.6em;
+    line-height: 1.6em;
+}
+.bui dd {
+    margin-right: 10px;
+    width: 75px;
+}
+.pls dd {
+    width: 70px;
+}
+.pls dd, .pls dt {
+    float: left;
+    overflow: hidden;
+    height: 1.6em;
+    line-height: 1.6em;
+}
+.imicn img {
+    vertical-align: middle;
+    margin-right: 8px;
+}
+.pls .avatar {
+    margin: 10px 15px;
+}
+.pls .avatar img {
+    padding: 5px 5px 8px;
+    background: #FFF url(https://www.discuz.net/static/image/common/midavt_shadow.gif) 0 100% repeat-x;
+    width: 120px;
+}
+.avtm img {
+    width: 120px;
+    height: auto;
+}
+.pls .tns {
+    padding: 0 10px 10px;
+}
+.tns {
+    padding: 10px 0;
+}
+.xg2 {
+    color: #666;
+}
+.tns th {
+    border-right: 1px solid #CCC;
+}
+.tns th, .tns td {
+    text-align: center;
+    font-size: 12px;
+}
+caption, th {
+    text-align: left;
+    font-weight: 400;
+}
+.pls .tns th p, .pls .tns td p {
+    font-size: 12px;
+    margin: 0;
+}
+.xi2, .xi2 a, .xi3 a {
+    color: #369;
+}
+.pls .tip_4 {
+    margin-left: -5px;
+}
+.tip_3, .tip_4 {
+    margin-top: -8px;
+}
+.tip {
+    position: absolute;
+    padding: 10px;
+    width: 260px;
+    border: 1px solid #B1B1B1;
+    background: #FEFEE9;
+}
+.tip_4 .tip_horn {
+    left: 5px;
+    bottom: -6px;
+    background: url(https://www.discuz.net/static/image/common/tip_bottom.png);
+}
+.tip_horn {
+    position: absolute;
+    width: 11px;
+    height: 6px;
+    overflow: hidden;
+}
+.pbg2 {
+    display: block;
+    height: 10px;
+    width: 130px;
+    margin: 0 auto;
+    background: url(https://www.discuz.net/static/image/common/ico_jdt.png) 0 -10px repeat-x;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.pbr2 {
+    display: block;
+    height: 10px;
+    background: url(https://www.discuz.net/static/image/common/ico_jdt.png) 0 0 repeat-x;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.pls .o .pm2 {
+    background-image: url(https://www.discuz.net/static/image/common/pmto.gif);
+}
+.pls .o li {
+    background-position: 0 50%;
+    background-repeat: no-repeat;
+    text-indent: 18px;
+}
+.xl2 li {
+    float: left;
+    margin: 2px 0;
+    padding: 0;
+    width: 50%;
+    height: 1.5em;
+    overflow: hidden;
+}
+.xl li {
+    margin: 2px 0;
+}
+ul li, .xl li {
+    list-style: none;
+}
+.pi {
+    overflow: hidden;
+    margin-bottom: 10px;
+    padding: 10px 0;
+    height: 16px;
+    border-bottom: 1px dashed #CDCDCD;
+}
+#fj {
+    margin-left: 5px;
+}
+.y {
+    float: right;
+}
+#fj label, #fj input {
+    margin-right: 4px;
+    padding: 0;
+    height: 16px;
+    line-height: 16px;
+}
+.pi strong a {
+    float: right;
+    margin-top: -6px;
+    padding: 4px 6px;
+    border: 1px solid #FFF;
+    font-weight: 400;
+}
+.pdbt {
+    float: right;
+    margin: -5px 10px 0 0;
+}
+.authicn {
+    cursor: pointer;
+    width: 16px;
+}
+.vm {
+    vertical-align: middle;
+}
+em, cite, i {
+    font-style: normal;
+}
+.pipe {
+    margin: 0 5px;
+    color: #CCC;
+}
+.authi .none {
+    display: inline-block;
+}
+.vm {
+    vertical-align: middle;
+}
+.authi .show {
+    display: none;
+}
+.pct {
+    padding-bottom: 1em;
+}
+.pcb {
+    margin-right: 0;
+}
+.pcb {
+    clear: left;
+    margin-right: 130px;
+}
+.t_fsz {
+    min-height: 100px;
+}
+.t_f, .t_f td {
+    font-size: 14px;
+}
+.a_pr {
+    float: right;
+    overflow: hidden;
+}
+.t_f a {
+    color: #369;
+    text-decoration: underline;
+}
+.plm {
+    vertical-align: bottom !important;
+}
+#p_btn {
+    line-height: 24px;
+    padding: 3em 0;
+    text-align: center;
+}
+.hm {
+    text-align: center;
+}
+.mtw {
+    margin-top: 20px !important;
+}
+.mbm {
+    margin-bottom: 10px !important;
+}
+.cl {
+    zoom: 1;
+}
+.tshare {
+    padding-bottom: 10px;
+}
+#p_btn a {
+    display: inline-block;
+    margin-right: 3px;
+    padding-right: 4px;
+    padding-left: 8px;
+    background: url(https://www.discuz.net/static/image/common/share_btn.png) no-repeat 0 0;
+    vertical-align: top;
+    white-space: nowrap;
+}
+.hin {
+    opacity: 0.2;
+}
+.po {
+    border-top: 1px dashed #CDCDCD;
+}
+
+.pob {
+    line-height: 36px;
+}
+.pob em {
+    float: left;
+}
+.po p {
+    float: right;
+}
+.po p a, .po p label {
+    margin-right: 6px;
+}
+.showmenu {
+    padding-right: 16px;
+    background: url(https://www.discuz.net/static/image/common/arrwd.gif) no-repeat 100% 50%;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.mgcmn {
+    width: 100px;
+}
+.p_pop, .p_pof, .sllt {
+    padding: 4px;
+    border: 1px solid #DDD;
+
+    min-width: 60px;
+
+    background: #FEFEFE;
+    box-shadow: 1px 2px 2px rgba(0,0,0,0.3);
+}
+.ad .pls {
+    background: #C2D5E3;
+    padding: 0;
+    height: 4px;
+}
+.ad .plc {
+    background: #E5EDF2;
+    padding: 0;
+    overflow: hidden;
+}
+.wp {
+    margin: 0 auto;
+    width: 960px;
+}
+#wp .wp {
+    width: auto;
+}
+#nv_forum #ct {
+    border-color: #C2D5E3;
+}
+#wp .wp {
+    width: auto;
+}
+#ct {
+    min-height: 300px;
+}

@@ -1,5 +1,6 @@
 package com.xiaozhi.service.impl;
 
+import com.xiaozhi.annotation.AddLog;
 import com.xiaozhi.dao.UserDao;
 import com.xiaozhi.entity.User;
 import com.xiaozhi.service.UserService;
@@ -17,10 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * (User)表服务实现类
@@ -46,7 +44,7 @@ public class UserServiceImpl implements UserService {
      * @return 实例对象
      */
     @Override
-    public User queryById(String id) {
+    public User queryById(int id) {
         return this.userDao.queryById(id);
     }
 
@@ -73,7 +71,7 @@ public class UserServiceImpl implements UserService {
         String password = user.getPassword();
         Md5Hash md5Hash=new Md5Hash(password,"abcd",1024);
         user.setPassword(md5Hash.toString());
-        user.setId(UUID.randomUUID().toString());
+        user.setUpdatetime(new Date());
         this.userDao.insert(user);
         return user;
     }
@@ -84,6 +82,7 @@ public class UserServiceImpl implements UserService {
      * @param user 实例对象
      * @return 实例对象
      */
+    @AddLog(value = "修改用户")
     @Override
     public User update(User user) {
         this.userDao.update(user);
@@ -97,13 +96,13 @@ public class UserServiceImpl implements UserService {
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(String id) {
+    public boolean deleteById(int id) {
         return this.userDao.deleteById(id) > 0;
     }
 
     @Override
-    public Map<String, String> queryByName(String username, String password) {
-        Map<String, String> map = new HashMap<String, String>();
+    public Map<String, Object> queryByName(String username, String password) {
+        Map<String, Object> map = new HashMap<String, Object>();
         System.out.println("password的值是:"+password);
             User users = this.userDao.queryByName(username);
             System.out.println("users"+users);
@@ -124,6 +123,7 @@ public class UserServiceImpl implements UserService {
             map.put("status","200");
             map.put("url","/main.jsp");
             map.put("id", users.getId());
+            session.setAttribute("user",users);
             session.setAttribute("isflag", "true");
         } catch (UnknownAccountException e) {
             map.put("status","201");
@@ -144,22 +144,72 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int delAttention(String user_id,String topic_id) {
+    public int delAttention(int user_id,int topic_id) {
         return this.userDao.delAttention(user_id,topic_id);
     }
 
     @Override
-    public List<AttentionVO> queryAttention(String id) {
-        return this.userDao.queryAttention(id);
+    public Map<String, Object> queryAttention(int id, int page) {
+        int start = (page - 1) * 2;
+        int num = getAttNum(id);
+        int pageCount = num % 2 == 0 ? num / 2 : num / 2 + 1;
+        Object arr[];
+        if (pageCount>10){
+            arr= new Object[10];
+            for (int i=0;i<10;i++){
+                arr[i]=i+1;
+            }
+        }else {
+            arr= new Object[pageCount];
+            for (int i=0;i<pageCount;i++){
+                arr[i]=i+1;
+            }
+        }
+
+        List<AttentionVO> attentionVOList = this.userDao.queryAttention(id, start);
+        System.out.println("关注的集合");
+        System.out.println(attentionVOList);
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("total",arr);
+        map.put("num",pageCount);
+        map.put("page",page);
+        map.put("attlist",attentionVOList);
+        return map;
     }
 
     @Override
-    public List<MyQuizVO> queryQuiz(String id) {
+    public int getAttNum(int id) {
+        return this.userDao.getAttNum(id);
+    }
+
+    @Override
+    public List<MyQuizVO> queryQuiz(int id) {
         return this.userDao.queryQuiz(id);
     }
 
     @Override
-    public int delQuiz(String user_id, String topic_id) {
+    public int delQuiz(int user_id, int topic_id) {
         return this.userDao.delQuiz(user_id,topic_id);
+    }
+
+    @Override
+    public User queryByOneName(String username) {
+        return userDao.queryByOneName(username);
+    }
+
+    @Override
+    public int queryPub(int id) {
+        return this.userDao.queryPub(id);
+    }
+
+    @Override
+    public User queryUser(String id) {
+        return this.userDao.queryUser(id);
+    }
+
+    @Override
+    public List<AttentionVO> queryIfAtten(int id) {
+        return this.userDao.queryIfAtten(id);
     }
 }
