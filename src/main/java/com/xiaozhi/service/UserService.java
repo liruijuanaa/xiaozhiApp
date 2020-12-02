@@ -65,7 +65,7 @@ public interface UserService {
     Map<String, Object> queryAttention(int id, int page);
 
     //查询发表问题
-    List<MyQuizVO> queryQuiz(int id);
+    Map<String, Object> queryQuiz(int id, int page);
 
     int delQuiz(int user_id,int topic_id);
 
@@ -79,6 +79,9 @@ public interface UserService {
 
     //查询用户关注话题的个数
     int getAttNum(int id);
+
+    //查询用户发表话题的个数
+    int getQuizNum(int id);
 
     //查询是否关注问题
     List<AttentionVO> queryIfAtten(@Param("id") int id);

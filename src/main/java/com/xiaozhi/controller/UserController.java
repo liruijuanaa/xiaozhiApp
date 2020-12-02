@@ -148,10 +148,10 @@ public class UserController {
 
     @RequestMapping("queryQuiz")
     @ResponseBody
-    public List<MyQuizVO> queryQuiz(int id){
+    public Map<String, Object> queryQuiz(int id,int page){
         System.out.println("调用查询关注");
         System.out.println("传递ID为："+id);
-        return this.userService.queryQuiz(id);
+        return this.userService.queryQuiz(id,page);
     }
 
     @RequestMapping("queryPub")

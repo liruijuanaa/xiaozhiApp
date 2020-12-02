@@ -184,8 +184,40 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<MyQuizVO> queryQuiz(int id) {
-        return this.userDao.queryQuiz(id);
+    public int getQuizNum(int id) {
+       return this.userDao.getQuizNum(id);
+    }
+
+    @Override
+    public Map<String, Object> queryQuiz(int id,int page) {
+
+        int start = (page - 1) * 2;
+        int num = getQuizNum(id);
+        int pageCount = num % 2 == 0 ? num / 2 : num / 2 + 1;
+        Object arr[];
+        if (pageCount>10){
+            arr= new Object[10];
+            for (int i=0;i<10;i++){
+                arr[i]=i+1;
+            }
+        }else {
+            arr= new Object[pageCount];
+            for (int i=0;i<pageCount;i++){
+                arr[i]=i+1;
+            }
+        }
+        List<MyQuizVO> myQuizVOS = this.userDao.queryQuiz(id, start);
+
+        System.out.println("关注的集合");
+        System.out.println(myQuizVOS);
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("total",arr);
+        map.put("num",pageCount);
+        map.put("page",page);
+        map.put("quizlist",myQuizVOS);
+
+        return map;
     }
 
     @Override

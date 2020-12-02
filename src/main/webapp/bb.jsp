@@ -19,34 +19,6 @@
     <link rel="stylesheet" type="text/css" href="${path}/style/css/bootstrap.css"/>
 
     <script src="${path}/style/js/bootstrap.min.js"></script>
-    <style>
-        .pagination{
-            float: right;
-        }
-        .pagination li:active{
-            background-color: black;
-        }
-        #go{
-            width: 200px;
-            float: right;
-            margin: 20px;
-            margin-right: 0;
-            padding-right: 0;
-        }
-        .pp{
-            width: 938px;
-
-        }
-        #tt{
-            height: 40px;
-            padding-left: 50px;
-            margin-top: 80px;
-        }
-        #fo{
-            width: 753px;
-            float: right;
-        }
-    </style>
     <script>
         var $panelList;
         var uid = sessionStorage.getItem("id");

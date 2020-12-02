@@ -95,7 +95,7 @@ public interface UserDao {
     List<AttentionVO> queryAttention(@Param("id") int id, @Param("start") int start);
 
     //查询发表问题
-    List<MyQuizVO> queryQuiz(int id);
+    List<MyQuizVO> queryQuiz(@Param("id") int id, @Param("start") int start);
 
     //删除发表
     int delQuiz(@Param("user_id") int user_id,@Param("topic_id") int topic_id);
@@ -110,6 +110,9 @@ public interface UserDao {
 
     //查询用户关注话题的个数
     int getAttNum(int id);
+
+    //查询用户发表话题的个数
+    int getQuizNum(int id);
 
     //查询是否关注问题
     List<AttentionVO> queryIfAtten(@Param("id") int id);
