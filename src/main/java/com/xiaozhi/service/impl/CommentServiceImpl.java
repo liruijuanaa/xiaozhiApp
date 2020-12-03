@@ -1,8 +1,10 @@
 package com.xiaozhi.service.impl;
 
 import com.xiaozhi.dao.CommentDao;
+import com.xiaozhi.dao.UserDao;
 import com.xiaozhi.entity.Comment;
 import com.xiaozhi.entity.Subsystem;
+import com.xiaozhi.entity.User;
 import com.xiaozhi.service.CommentService;
 import com.xiaozhi.vo.CommentVO;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,8 @@ public class CommentServiceImpl implements CommentService {
     @Resource
     private CommentDao commentDao;
 
+    @Resource
+    private UserDao userDao;
     /**
      * 通过ID查询单条数据
      *
@@ -82,9 +86,14 @@ public class CommentServiceImpl implements CommentService {
      * @return 实例对象
      */
     @Override
-    public Subsystem insert(Subsystem subsystem) {
-        this.commentDao.insert(subsystem);
-        return subsystem;
+    public int insert(Subsystem subsystem) {
+        int i = this.commentDao.insert(subsystem);
+        return i;
+    }
+
+    @Override
+    public int selectLast() {
+        return this.commentDao.selectLast();
     }
 
     /**
@@ -114,14 +123,62 @@ public class CommentServiceImpl implements CommentService {
     public boolean deleteById(String id) {
         return false;
     }
-    @Override
-    public List<CommentVO> queryComment(int id) {
 
-        return this.commentDao.queryComment(id);
+    @Override
+    public int queryComNum(int id) {
+        return this.commentDao.queryComNum(id);
+    }
+
+    @Override
+    public Map<String, Object> queryComment(int id,int page) {
+
+        int start = (page - 1) * 4;
+        int num = queryComNum(id);
+        int pageCount = num % 4 == 0 ? num / 4 : num / 4 + 1;
+        Object arr[];
+        if (pageCount>10){
+            arr= new Object[10];
+            for (int i=0;i<10;i++){
+                arr[i]=i+1;
+            }
+        }else {
+            arr= new Object[pageCount];
+            for (int i=0;i<pageCount;i++){
+                arr[i]=i+1;
+            }
+        }
+        List<CommentVO> commentVOS = this.commentDao.queryComment(id, start);
+        System.out.println("关注的集合");
+        System.out.println(commentVOS);
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("total",arr);
+        map.put("num",pageCount);
+        map.put("page",page);
+        map.put("comlist",commentVOS);
+
+        return map;
     }
 
     @Override
     public List<Comment> queryCom() {
         return this.commentDao.queryCom();
+    }
+
+    @Override
+    public int addComm(CommentVO commentVO) {
+        return this.commentDao.addComm(commentVO);
+    }
+
+    @Override
+    public String  queryByuserID(int topic_id) {
+        int user_id = this.commentDao.queryByuserID(topic_id);
+        if (user_id==0){
+            return "";
+        }else {
+            User user = userDao.queryById(user_id);
+            return user.getUsername();
+        }
+
     }
 }

@@ -19,7 +19,7 @@ server:
       init-parameters:
         development: true
     context-path: /xiaozhi
-  port: 9748
+  port: 9749
 mybatis:
   mapper-locations: classpath:com/xiaozhi/mapper/*.xml
   type-aliases-package: com.xiaozhi.entity

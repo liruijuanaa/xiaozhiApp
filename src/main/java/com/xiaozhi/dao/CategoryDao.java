@@ -75,7 +75,9 @@ public interface CategoryDao {
 
     int getTotal(String icon);
 
-    int getPidTotal(int id);
+    int getPidTotal(@Param("id") int id, @Param("sys_level") int sys_level);
+
+    int getThreeTotal(@Param("id") int id, @Param("sys_level") int sys_level);
 
     /**
      * 通过主键删除数据
@@ -97,6 +99,8 @@ public interface CategoryDao {
     List<Subsystem> queryTwoCategoryFenye(@Param("icon") String icon, @Param("start") int start);
 
       //根据指定的一级类别去查询二级-->
-    List<Subsystem> queryRequest(@Param("id") int id, @Param("start") int start);
+    List<Subsystem> queryRequest(@Param("id") int id, @Param("start") int start,@Param("sys_level") int sys_level);
 
+    //根据二级类别去查询二级-->
+    List<Subsystem> queryTwoRequest(@Param("id") int id,@Param("sys_level") int sys_level, @Param("start") int start);
 }

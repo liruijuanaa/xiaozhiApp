@@ -201,7 +201,7 @@
         </div>
 
     </div>
-            <a type="button"  style="height: 34px" id="mkdirTheme" class="navbar-btn btn btn-primary">创建主题</a>
+<%--            <a type="button"  style="height: 34px" id="mkdirTheme" class="navbar-btn btn btn-primary">创建主题</a>--%>
 </div>
 
         </div>

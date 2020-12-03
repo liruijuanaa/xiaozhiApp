@@ -86,12 +86,12 @@
         delete from mysql.forum_category where ID = #{id}
     </delete>
 
-    <!--根据一级类别查询二级类别-->
+    <!--根据0级类别查询1级类别-->
+    <!--根据1级类别查询2级类别-->
     <select id="queryTwoCategory" resultType="com.xiaozhi.entity.Subsystem">
         select id, name, description, icon, pid, seq, status, sys_level, create_time
             from pcs_001.subsystem
             where pid=#{category_id}
-
     </select>
     
     <!--查询最新的一条帖子-->
@@ -104,31 +104,51 @@
             limit 0,1
     </select>
 
-    <!--根据一级类别查询二级类别-->
+    <!--根据一级类别查询3级问题-->
     <select id="queryTwoCategoryFenye" resultType="com.xiaozhi.entity.Subsystem">
         select id, name, description, icon, pid, seq, status, sys_level, create_time
             from pcs_001.subsystem
-            where icon=#{icon} and sys_level=2
+            where icon=#{icon} and sys_level=3
             limit #{start},10
     </select>
 
     <!--根据指定的一级类别去查询二级-->
+
     <select id="queryRequest"  resultType="com.xiaozhi.entity.Subsystem">
         select id, name, description, icon, pid, seq, status, sys_level, create_time
             from pcs_001.subsystem
-            where pid=#{id} and sys_level=2
+            where pid=#{id} and sys_level=#{sys_level}
+            limit #{start},10
+    </select>
+
+    <!--根据-->
+    <select id="queryTwoRequest"  resultType="com.xiaozhi.entity.Subsystem">
+        select p.id, p.name, p.description, icon, pid, seq, status, sys_level, create_time
+            from (select t.id
+            from pcs_001.subsystem t
+            where t.pid=#{id} and t.sys_level=#{sys_level}) a inner join pcs_001.subsystem p
+            where p.pid=a.id
             limit #{start},10
     </select>
 
     <select id="getTotal" resultType="java.lang.Integer" parameterType="String">
         select count(id)
             from pcs_001.subsystem
-            where icon = #{icon}  and sys_level=2
+            where icon = #{icon}  and sys_level=3
      </select>
 
     <select id="getPidTotal"  resultType="java.lang.Integer" parameterType="int">
         select count(id)
             from pcs_001.subsystem
-            where pid = #{id}  and sys_level=2
+            where pid = #{id}  and sys_level=#{sys_level}
+    </select>
+
+    <!--根据一级类别查询所有三级问题-->
+    <select id="getThreeTotal"  resultType="java.lang.Integer" parameterType="int">
+        select count(p.id)
+            from (select t.id
+            from pcs_001.subsystem t
+            where t.pid=#{id} and t.sys_level=#{sys_level}) a inner join pcs_001.subsystem p
+            where p.pid=a.id
     </select>
 </mapper>

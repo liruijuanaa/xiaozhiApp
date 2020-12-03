@@ -53,7 +53,9 @@ public interface CategoryService {
 
     int getTotal(String icon);
 
-    int getPidTotal(int id);
+    int getPidTotal(int id, int sys_level);
+
+    int getThreeTotal(int id,int sys_level);
     /**
      * 通过主键删除数据
      *
@@ -67,13 +69,16 @@ public interface CategoryService {
 
     //根据一级类别去查询二级类别
     List<Subsystem> queryTwoCategory(String category_id);
-
+    List<Subsystem> queryTwoCategory2(int category_id);
     //查询最新发布的一条帖子
     Topic queryLatest(String id);
 
     Map<String ,Object> queryTwoCategoryFenye(String category_id,int page);
 
-    Map<String ,Object> queryRequest(int id, int page);
+    Map<String ,Object> queryRequest(int id, int page, int sys_level);
+
+    //根据一级类别去查询二级-->
+    Map<String ,Object> queryTwoRequest(int id, int sys_level, int page);
 
     Subsystem queryByName(String name);
 }

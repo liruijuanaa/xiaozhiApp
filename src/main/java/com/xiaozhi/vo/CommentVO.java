@@ -27,7 +27,7 @@ public class CommentVO implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date create_time;
 
-    private int USER_ID;
+    private int user_id;
 
     private String username;
 }

@@ -57,11 +57,11 @@ public class CommentController {
 
     @RequestMapping("queryComment")
     @ResponseBody
-    public List<CommentVO> queryComment(int id){
+    public Map<String, Object> queryComment(int id, int page){
         System.out.println("话题ID为："+id);
 
 
-        return this.commentService.queryComment(id);
+        return this.commentService.queryComment(id,page);
     }
 
     @RequestMapping("updateComment")
@@ -89,9 +89,19 @@ public class CommentController {
         System.out.println("level"+level);
         subsystem.setSys_level(level);
         System.out.println("----"+subsystem);
-        Subsystem insert = this.commentService.insert(subsystem);
-        this.topicService.insertAns(new MyAnswerVO(commentVO.getUSER_ID(), insert.getId()));
-
+        this.commentService.insert(subsystem);
+        int i = this.commentService.selectLast();
+        CommentVO cc=new CommentVO();
+        cc.setName(commentVO.getName());
+        cc.setDescription(commentVO.getDescription());
+        cc.setIcon(subsystem1.getIcon());
+        cc.setPid(commentVO.getPid());
+        cc.setCreate_time(new Date());
+        cc.setUser_id(commentVO.getUser_id());
+        cc.setUsername(commentVO.getUsername());
+        System.out.println("这里是新增话题的ID值："+i);
+        this.topicService.insertAns(new MyAnswerVO(commentVO.getUser_id(), i));
+        this.commentService.addComm(cc);
 //        String topicId = comment.getTopicId();
 //        System.out.println("topicid"+topicId);
 //        Topic topic = this.topicService.queryById(topicId);
@@ -118,5 +128,12 @@ public class CommentController {
     @ResponseBody
     public List<Comment> queryCom(){
         return this.commentService.queryCom();
+    }
+
+    //查询用户名
+    @RequestMapping("queryByuserID")
+    @ResponseBody
+    public String queryByuserID(int topic_id){
+        return this.commentService.queryByuserID(topic_id);
     }
 }

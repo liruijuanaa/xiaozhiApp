@@ -50,6 +50,12 @@ public class CategoryController {
         return this.categoryService.queryTwoCategory(category_id);
     }
 
+    @RequestMapping("queryTwoCategory2")
+    public List<Subsystem> queryTwoCategory2(int category_id){
+        System.out.println("类别ID"+category_id);
+        return this.categoryService.queryTwoCategory2(category_id);
+    }
+
     @RequestMapping("queryTwoCategoryFenye")
     public Map<String ,Object> queryTwoCategoryFenye(String category_id, int page){
         System.out.println(page);
@@ -57,9 +63,15 @@ public class CategoryController {
     }
 
     @RequestMapping("queryRequest")
-    public Map<String ,Object> queryRequest(int id, int page){
+    public Map<String ,Object> queryRequest(int id, int page,int sys_level){
         System.out.println(page);
-        return this.categoryService.queryRequest(id,page);
+        return this.categoryService.queryRequest(id,page,sys_level);
+    }
+
+    @RequestMapping("queryTwoRequest")
+    public Map<String ,Object> queryTwoRequest(int id, int sys_level, int page){
+//        System.out.println(page);
+        return this.categoryService.queryTwoRequest(id, sys_level,page);
     }
 
     //根据类别ID查询最新发布的帖子

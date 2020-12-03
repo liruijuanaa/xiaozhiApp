@@ -23,6 +23,7 @@ public interface CommentDao {
      */
     Comment queryById(String id);
 
+    int addComm(CommentVO commentVO);
     /**
      * 查询指定行数据
      *
@@ -80,9 +81,15 @@ public interface CommentDao {
      * @return 影响行数
      */
     int deleteById(String id);
-    List<CommentVO> queryComment(@Param("id") int id);
+    List<CommentVO> queryComment(@Param("id") int id, @Param("start") int start);
 
     int queryNum();
 
+    int queryComNum(int id);
+
     List<Comment> queryCom();
+
+    int selectLast();
+
+    int queryByuserID(int topic_id);
 }

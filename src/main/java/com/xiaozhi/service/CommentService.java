@@ -38,7 +38,7 @@ public interface CommentService {
      * @param comment 实例对象
      * @return 实例对象
      */
-    Subsystem insert(Subsystem subsystem);
+    int insert(Subsystem subsystem);
 
     /**
      * 修改数据
@@ -55,9 +55,17 @@ public interface CommentService {
      * @return 是否成功
      */
     boolean deleteById(String id);
-    List<CommentVO> queryComment(int id);
+    Map<String, Object> queryComment(int id, int page);
 
     int queryNum();
 
+    int queryComNum(int id);
+
     List<Comment> queryCom();
+
+    int addComm(CommentVO commentVO);
+
+    int selectLast();
+
+    String queryByuserID(int topic_id);
 }

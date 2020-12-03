@@ -23,6 +23,13 @@
        select id,name, description, icon, pid, seq, status, sys_level, create_time
             from pcs_001.subsystem
             where pid=#{id}
+            limit #{start}, 4
+    </select>
+
+    <select id="queryComNum" resultType="int" parameterType="int">
+        select count(id)
+            from pcs_001.subsystem
+            where pid=#{id}
     </select>
 
     <!--查询指定行数据-->
@@ -63,6 +70,19 @@
         insert into pcs_001.subsystem(name, description, icon, pid, seq, status, sys_level, create_time)
         values (#{name}, #{description}, #{icon}, #{pid}, #{seq}, #{status},#{sys_level}, #{create_time})
     </insert>
+
+    <!--查询最后自动插入的ID值-->
+    <select id="selectLast" resultType="int">
+        select last_insert_id();
+    </select>
+
+    <!--根据话题ID去查询用户ID-->
+    <select id="queryByuserID" resultType="int" parameterType="int">
+        select m.USER_ID
+            from pcs_001.subsystem p inner join mysql.forum_myanswer m
+            on p.id=m.TOPIC_ID
+            where TOPIC_ID=#{topic_id}
+    </select>
 
     <insert id="insertBatch" keyProperty="" useGeneratedKeys="true">
         insert into mysql.forum_comment(ID, CONTENT, USER_ID, TOPIC_ID, PRISE)
@@ -119,4 +139,10 @@
     <select id="queryCom" resultMap="CommentMap">
         select * from mysql.forum_comment
     </select>
+
+    <!--新增回复-->
+    <insert id="addComm" keyProperty="" useGeneratedKeys="true">
+        insert into mysql.forum_comm(name, description, icon, pid, create_time, user_id, username)
+        values (#{name}, #{description}, #{icon}, #{pid}, #{create_time}, #{user_id}, #{username})
+    </insert>
 </mapper>

@@ -140,7 +140,7 @@ public class UserController {
 
     @RequestMapping("queryIfAtten")
     @ResponseBody
-    public List<AttentionVO> queryAtten(int id){
+    public List<AttentionVO> queryIfAtten(int id){
         System.out.println("调用查询关注");
         System.out.println("传递ID为："+id);
         return this.userService.queryIfAtten(id);

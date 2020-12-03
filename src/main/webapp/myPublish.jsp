@@ -34,7 +34,7 @@
             padding-right: 0;
         }
         .pp{
-            width: 938px;
+            width: 750px;
 
         }
         #tt{

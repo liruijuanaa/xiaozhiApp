@@ -111,6 +111,11 @@ public class CategoryServiceImpl implements CategoryService {
         return subsystemList;
     }
 
+    @Override
+    public List<Subsystem> queryTwoCategory2(int category_id) {
+        return this.categoryDao.queryTwoCategory(category_id);
+    }
+
     //查询最新发布的一条帖子
 
     @Override
@@ -127,8 +132,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public int getPidTotal(int id) {
-        return this.categoryDao.getPidTotal(id);
+    public int getPidTotal(int id, int sys_level) {
+        return this.categoryDao.getPidTotal(id,sys_level);
     }
 
     @Override
@@ -196,14 +201,15 @@ public class CategoryServiceImpl implements CategoryService {
         return map;
     }
 
+    //根据所有一级去查询二级
     @Override
-    public Map<String, Object> queryRequest(int id, int page) {
+    public Map<String, Object> queryRequest(int id, int page,int sys_level) {
 
         int start = (page - 1) * 10;
 
-        List<Subsystem> subsystemList = this.categoryDao.queryRequest(id,start);
+        List<Subsystem> subsystemList = this.categoryDao.queryRequest(id,start,sys_level);
 
-        int num = getPidTotal(id);
+        int num = getPidTotal(id,sys_level);
         int pageCount = num % 10 == 0 ? num / 10 : num / 10 + 1;
 
         System.out.println("总条数"+num);
@@ -240,6 +246,52 @@ public class CategoryServiceImpl implements CategoryService {
         map.put("num",pageCount);
         map.put("page",page);
 //        map.put("userlist",userList);
+        return map;
+    }
+
+    @Override
+    public int getThreeTotal(int id, int sys_level) {
+        return this.categoryDao.getThreeTotal(id, sys_level);
+    }
+
+    //得到一级类别下的三级问题
+    @Override
+    public Map<String ,Object> queryTwoRequest(int id, int sys_level, int page) {
+        int start = (page - 1) * 10;
+
+        int num = getThreeTotal(id,2);
+        int pageCount = num % 10 == 0 ? num / 10 : num / 10 + 1;
+
+        System.out.println("总条数"+num);
+        System.out.println("总页数"+pageCount);
+
+        Object arr[];
+        if (pageCount>10){
+            arr= new Object[10];
+            for (int i=0;i<10;i++){
+                arr[i]=i+1;
+            }
+        }else {
+            arr= new Object[pageCount];
+            for (int i=0;i<pageCount;i++){
+                arr[i]=i+1;
+            }
+        }
+
+
+        for (Object o : arr) {
+            System.out.println(o);
+        }
+
+        Map<String ,Object> map=new HashMap<>();
+        List list=new ArrayList();
+        int totalThree=0;
+        //得到指定一级类别下的二级类别
+        List<Subsystem> subsystemList = this.categoryDao.queryTwoRequest(id, 2,start);
+        map.put("subsystemList",subsystemList);
+        map.put("total",arr);
+        map.put("num",pageCount);
+        map.put("page",page);
         return map;
     }
 }

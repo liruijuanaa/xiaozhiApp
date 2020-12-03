@@ -17,233 +17,100 @@
     <script src="${path}/style/js/jquery.backstretch.min.js"></script>
     <script src="${path}/style/js/jquery.validate.min.js"></script>
     <link rel="stylesheet" type="text/css" href="${path}/style/css/bootstrap.css"/>
+    <style>
 
+        ul.tab_but li.current {
+            position: relative;
+            background: #fff;
+            border-bottom: 0;
+            height: 26px;
+            line_height: 27px;
+            font-weight: 700;
+        }
+
+    </style>
     <script src="${path}/style/js/bootstrap.min.js"></script>
     <script>
-        var $panelList;
-        var uid = sessionStorage.getItem("id");
+        var options;
+        var options2;
         $(function (){
 
-            $panelList=$("#panelList");
-
-            yy(1);
-            $("#gg").click(function (){
-                var val = $("#goto").val();
-                console.log("文本框输入的值是"+val)
-                yy(val);
+            $("#lei li").click(function() {
+                $(this).siblings('li').removeClass('current');  // 删除其他兄弟元素的样式
+                $(this).addClass('current');                            // 添加当前元素的样式
             })
 
-            $("#myAttention").click(function (){
-                location.href = "${path}/attention.jsp"
-            })
-            $("#myQuiz").click(function (){
-                location.href = "${path}/myPublish.jsp"
-            })
+            var category_id = window.location.href.split("=")[1];
+            var $sel = $("#select");
+            var $sel2 = $("#select2");
+            options=$("#select option:first").val();
+            options2=$("#select2 option:first").val();
 
+            $sel.change(function (){
+                options = $("#select option:selected").val();
+                alert(options);
+                $("#select2").empty();
+                $.ajax({
+                    type : "post",
+                    method:"post",
+                    async : true, //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                    url : "${path}/category/queryTwoCategory2", //请求发送到Page处
+                    data : {category_id:options},
+                    dataType : "json", //返回数据形式为json
+                    success:function(data) {
+                        console.log("------")
+                        console.log(data);
+                        var $top=" <option value=\"0\">根据二级类别查询</option>";
+                        $sel2.append($top);
+                        $.each(data,function (index,cat){
 
-
-
-        })
-
-        var nn;
-        var pageNum;
-        function yy(num){
-            nn=num;
-            // $("#myul").empty();
-            // $panelList.empty();
-            $("#num").css("class","active");
-            // var $aa = $("#aaa");
-            $.ajax({
-                url:"${path}/user/queryQuiz",
-                dataType:"json",
-                type:"post",
-                data:{id:uid,page:num},
-                success:function (data){
-                    // console.log(data)
-
-                    console.log(data)
-
-                    var ss = data.quizlist;
-                    var total = data.total;
-                    console.log("+-------")
-                    console.log(ss);
-                    // console.log("total"+total);
-                    pageNum=data.num;
-                    $("#pageTotal").text("共"+data.num+"页");
-                    var $ao="        <li id=\"pp\" style=\"cursor: pointer\">\n" +
-                        "            <a aria-label=\"Previous\" id=\"prevStatu\" onclick=\"prevId()\">\n" +
-                        "                <span aria-hidden=\"true\">&laquo;</span>\n" +
-                        "            </a>\n" +
-                        "        </li>";
-                    var $at="            <li  style=\"cursor: pointer\"><a aria-label=\"Next\" id=\"nextStatu\" onclick=\"nextId()\">\n" +
-                        "                <span aria-hidden=\"true\">&raquo;</span>\n" +
-                        "            </a>\n" +
-                        "        </li>";
-                    $("#myul").append($ao);
-                    for (var i in total){
-
-                        var $ah="<li style=\"cursor: pointer\"><a id=\""+total[i]+"\" onclick=\"yy("+total[i]+")\">"+total[i]+"</a></li>";
-                        $("#aa").addClass('active')
-
-                        $("#myul").append($ah);
-                    }
-                    var $total="<span id='tt'>共"+data.num+"页</span>";
-                    $("#goto").val(nn);
-                    $("#myul").append($at);
-
-                    $.each(ss,function (index,quiz){
-                        console.log(quiz.topic_id)
-
-                        $.ajax({
-                            url:"${path}/topic/selectOne",
-                            dataType: "json",
-                            type: "post",
-                            data:{id:quiz.topic_id},
-                            success:function (dat){
-                                console.log("-0000");
-                                console.log(dat);
-                                $.ajax({
-                                    url:"${path}/topic/queryThemeName",
-                                    dataType:"json",
-                                    type:"post",
-                                    data:{icon:dat.icon},
-                                    success:function (dd){
-                                        console.log("####")
-                                        console.log(dd)
-                                        var themeNa = dd.name;
-
-                                        if (dat.status==1){
-                                            // $("#help_id").replaceWith("<button type=\"button\" id=\"resolved_id\" class=\"btn btn-success\">已解决</button>");
-                                            var $state="<a href=\"${path}/topic/updateStatus?status=0&id="+dat.id+"\" type=\"button\" id=\"resolved_id\" class=\"btn btn-success\">已解决</a>";
-                                        }else {
-                                            var $state="<a href=\"${path}/topic/updateStatus?status=1&id="+dat.id+"\" type=\"button\" id=\"help_id\" class=\"btn btn-danger\">求助</a>";
-                                        }
-
-                                        var $titlehr="<div class=\"panel\">\n" +
-                                            "                            <div class=\"panel-body\" id=\"aa\">\n" +
-                                            "                                <p>\n" +
-                                            "                                    <h3><a href=\"${path}/commen.jsp?id="+dat.id+"&name="+themeNa+"\">"+dat.name+"</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" +
-                                            $state+
-                                            "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a type=\"button\" href=\"${path}/user/delQuiz?user_id="+uid+"&topic_id="+dat.id+"\" id=\"deleteQuiz\"> <small><span class=\"glyphicon glyphicon-trash\"></span></small></a></h3>" +
-                                            "                                </p>\n" +
-                                            "                            </div>";
-                                        // var $cctr=" <div class=\"panel-footer\" style=\"background-color: white;\">\n" +
-                                        //     "                                <span class=\"glyphicon glyphicon-thumbs-up\"></span>赞<span class=\"glyphicon glyphicon-comment\"></span>&nbsp;条评论</a>\n" +
-                                        //     "                                &nbsp;&nbsp;\n" +
-                                        //     "                        </div>";
-                                        $panelList.append($titlehr);
-                                    }
-                                })
-
-
-
-
-
-                            }
+                            var $op="<option value=\""+cat.id+"\">"+cat.description+"</option>";
+                            $sel2.append($op);
                         })
-
-                    })
-
-
-                }
+                    }
+                });
             })
-        }
+            $sel2.change(function (){
+                options2=$("#select2 option:selected").val();
+                alert("options2的值是："+options2)
+            })
+            console.log("options"+options);
+            console.log("options2"+options2)
+            //遍历0级类别下的1级类别  页面加载时进行展示
+            $.ajax({
+                type : "post",
+                method:"post",
+                async : true, //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                url : "${path}/category/queryTwoCategory", //请求发送到Page处
+                data : {category_id:category_id},
+                dataType : "json", //返回数据形式为json
+                success:function(data) {
+                    console.log(data);
+                    $.each(data,function (index,cat){
 
-        function nextId(){
-            if (nn==pageNum||nn>pageNum){
-                yy(nn)
-
-            }else {
-                yy(nn+1);
-            }
-
-        }
-        function prevId(){
-            if (nn==1||nn<1){
-                $("#pp").addClass('disabled');
-                yy(nn);
-            }else {
-
-                yy(nn-1);
-            }
-
-        }
+                        var $op="<option value=\""+cat.id+"\">"+cat.description+"</option>";
+                        $sel.append($op);
+                    })
+                }
+            });
+        })
     </script>
 </head>
 <body>
-<div class="container">
-    <!--顶部导航-->
-    <div class="navbar navbar-default " id="navbar-top">
-        <div class="container-fluid">
-            <div class="navbar-header">
-                <a href="" class="navbar-brand"><span class="glyphicon glyphicon-th-large"></span></a>
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#menu-1">
-                    <span class="caret"></span>
-                </button>
-            </div>
-            <div class="navbar-collapse collapse" id="menu-1">
+<select id="select">
+    <option value="0">根据类别查询</option>
+</select>
+<select id="select2">
+    <option value="0">根据二级类别查询</option>
+</select>
 
-                <ul class="nav navbar-nav">
-
-                    <li><a href="${path}/homePage.jsp">首页</a></li>
-
-                </ul>
-
-                <%--                <a href="${path}/quiz.jsp" type="button" class="navbar-btn btn btn-primary">发帖</a>--%>
-                <div class="navbar-btn navbar-right" style="background-color: transparent" id="photoDiv">
-
-                </div>
-
-            </div>
-        </div>
-    </div>
-    <!--左侧-->
-    <div class="col-md-10">
-        <!--热榜-->
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3>我发出的问题</h3>
-            </div>
-            <!--问题浏览-->
-            <div class="panel-body" id="panelList">
-
-            </div>
-        </div>
-        <div class="pp">
-
-            <nav aria-label="Page navigation">
-
-                <div id="fo">
-
-
-                    <div class="input-group" id="go">
-                        <span class="input-group-addon" id="pageTotal">ee</span>
-                        <input type="text" style="width: 60px" class="form-control" id="goto">
-
-                        <button class="btn btn-default" type="button" id="gg">Go!</button>
-                        </span>
-                    </div>
-                    <ul class="pagination" id="myul">
-
-
-                    </ul>
-                </div>
-            </nav>
-        </div>
-    </div>
-    <!--右侧-->
-    <div class="col-md-2">
-        <ul class="list-group">
-
-            <button class="list-group-item" id="myAttention">我关注的问题</button>
-            <button id="myQuiz" class="list-group-item">我发出的问题</button>
-        </ul>
-    </div>
-</div>
-
+<ul class="J_tabs tab_but cu_li" id="lei">
+    <li value="1">参与用户</li>
+    <li value="2">抽奖</li>
+    <li value="3">新老玩家</li>
+    <li value="4">点击数</li>
+    <li value="5">帮砍用户机型</li>
+    <li value="6">砍价完成</li>
+</ul>
 </body>
 </html>
