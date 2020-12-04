@@ -26,16 +26,53 @@
         }
     </style>
     <script>
+        var options;
+        var options2;
         $(function (){
             var user_id = sessionStorage.getItem("id");
             var category_id = window.location.href.split("=")[1];
             var username = sessionStorage.getItem("uname");
-            var options=$("#select option:first");
-            var $sel = $("#select");
-            $sel.change(function (){
-                options = $("#select option:selected");
-                // alert(options.val())
 
+            var $sel = $("#select");
+            options=$("#select option:first").val();
+            var $sel2 = $("#select2");
+            options2=$("#select2 option:first").val();
+
+            $sel2.change(function (){
+                options2=$("#select2 option:selected").val();
+                // alert("options2的值是："+options2)
+
+            })
+
+            $sel.change(function (){
+                options = $("#select option:selected").val();
+                // alert(options.val())
+                $("#select2").empty();
+                if (options==0){
+                    options2=0;
+
+                }else {
+                    $.ajax({
+                        type : "post",
+                        method:"post",
+                        async : true, //异步请求（同步请求将会锁住浏览器，用户其他操作必须等待请求完成才可以执行）
+                        url : "${path}/category/queryTwoCategory2", //请求发送到Page处
+                        data : {category_id:options},
+                        dataType : "json", //返回数据形式为json
+                        success:function(data) {
+                            console.log("------")
+                            console.log(data);
+                            var $top=" <option value=\"0\">全部</option>";
+                            $sel2.append($top);
+                            $.each(data,function (index,cat){
+
+                                var $op="<option value=\""+cat.id+"\">"+cat.description+"</option>";
+                                $sel2.append($op);
+                            })
+                        }
+                    });
+
+                }
             })
 
             var $za="<span style=\"color: lightgray\" class=\"glyphicon glyphicon-home\" aria-hidden=\"true\"></span><em> > </em><a href=\"${path}/homePage.jsp?username="+username+"\">论坛首页</a><em>></em><a href=\"${path}/main.jsp?category_id="+category_id+"\">"+category_id+"</a></div>";
@@ -58,11 +95,11 @@
                     })
                 }
             });
-            console.log("two_id  "+two_id);
+
 
             $("#publishID").click(function (){
-
-                if (options.val()==0){
+                console.log("two_id  "+options2);
+                if (options2==0){
                     alert("请选择类别")
                 }else {
                     var cont = $("#publishtext").val();
@@ -73,7 +110,7 @@
                         dataType: "text",
                         type: "post",
 
-                        data: {title:tt, content:cont, user_id:user_id,category_id:options.val()},
+                        data: {title:tt, content:cont, user_id:user_id,category_id:options2},
                         success:function (data){
                             location.href="${path}/main.jsp?category_id="+category_id+"";
                         }
@@ -133,6 +170,9 @@
         <div>
             <select id="select">
                 <option value="0">请选择发帖类别</option>
+            </select>
+            <select id="select2">
+                <option value="0"></option>
             </select>
         </div>
 

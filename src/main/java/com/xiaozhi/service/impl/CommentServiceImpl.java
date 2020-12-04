@@ -181,4 +181,15 @@ public class CommentServiceImpl implements CommentService {
         }
 
     }
+
+    @Override
+    public String queryByName(int topic_id) {
+        int user_id = this.commentDao.queryByName(topic_id);
+        if (user_id==0){
+            return "";
+        }else {
+            User user = userDao.queryById(user_id);
+            return user.getUsername();
+        }
+    }
 }

@@ -92,4 +92,6 @@ public interface CommentDao {
     int selectLast();
 
     int queryByuserID(int topic_id);
+
+    int queryByName(int topic_id);
 }

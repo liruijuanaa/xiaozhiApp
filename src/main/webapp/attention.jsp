@@ -279,7 +279,7 @@
 
 
                     <div class="input-group" id="go">
-                        <span class="input-group-addon" id="pageTotal">ee</span>
+                        <span class="input-group-addon" id="pageTotal"> </span>
                         <input type="text" style="width: 60px" class="form-control" id="goto">
 
                         <button class="btn btn-default" type="button" id="gg">Go!</button>

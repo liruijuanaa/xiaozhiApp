@@ -84,6 +84,14 @@
             where TOPIC_ID=#{topic_id}
     </select>
 
+    <!--根据话题ID去查询用户ID-->
+    <select id="queryByName" resultType="int" parameterType="int">
+        select USER_ID
+        from pcs_001.subsystem p inner join mysql.forum_myquiz m
+            on p.id=m.TOPIC_ID
+            where TOPIC_ID=#{topic_id}
+    </select>
+
     <insert id="insertBatch" keyProperty="" useGeneratedKeys="true">
         insert into mysql.forum_comment(ID, CONTENT, USER_ID, TOPIC_ID, PRISE)
         values

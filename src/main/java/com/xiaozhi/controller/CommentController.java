@@ -136,4 +136,11 @@ public class CommentController {
     public String queryByuserID(int topic_id){
         return this.commentService.queryByuserID(topic_id);
     }
+
+    //查询用户名
+    @RequestMapping("queryByName")
+    @ResponseBody
+    public String queryByName(int topic_id){
+        return this.commentService.queryByName(topic_id);
+    }
 }

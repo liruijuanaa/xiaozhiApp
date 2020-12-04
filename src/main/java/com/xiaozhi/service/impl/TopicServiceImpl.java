@@ -72,8 +72,8 @@ public class TopicServiceImpl implements TopicService {
         subsystem1.setPid(category_id);
         subsystem1.setSeq(0);
         subsystem1.setStatus(1);
-        int status = subsystem.getStatus();
-        int ss=++status;
+        int level = subsystem.getSys_level();
+        int ss=++level;
         subsystem1.setSys_level(ss);
         subsystem1.setCreate_time(new Date());
 

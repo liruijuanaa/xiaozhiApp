@@ -68,4 +68,6 @@ public interface CommentService {
     int selectLast();
 
     String queryByuserID(int topic_id);
+
+    String queryByName(int topic_id);
 }

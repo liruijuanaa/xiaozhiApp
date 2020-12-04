@@ -225,10 +225,37 @@
                 success:function (data){
                     console.log("这是comment页面获取的话题信息")
                     console.log(data);
+                    //根据话题ID获取用户名
+
+                    <%--$.ajax({--%>
+                    <%--    url:"${path}/comment/queryByName",--%>
+                    <%--    dataType:"text",--%>
+                    <%--    data:{topic_id:data.id},--%>
+                    <%--    type:"post",--%>
+                    <%--    method:"post",--%>
+                    <%--    success:function (dds){--%>
+
+
 
                     var $nonice = $("#nonice");
-                    var $con="<h3>"+data.name+"</h3>\n" +
-                        "<div style='color: black;padding-top: 15px'>"+data.description+"</div>"+
+                    <%--var $con="<h3>"+data.name+"</h3>\n"+--%>
+                    <%--    "<div class=\"panel\">\n" +--%>
+                    <%--    "                            <div class=\"panel-body\">\n" +--%>
+                    <%--    "                                <p>\n" +--%>
+                    <%--    "                                    <img src=\"${path}\" alt=\"\" class=\"img-circle\" width=\"25px\" height=\"25px\">&nbsp;&nbsp;\n" +--%>
+                    <%--    "                                </p>\n" +--%>
+                    <%--    "                                     "+dds+"  "      +--%>
+                    <%--   --%>
+                    <%--    "                            </div></div>";--%>
+                            var $ab=
+                                "<small style='color: red'>[求助]</small>&nbsp;&nbsp;";
+                            if (data.status==1){
+                                $ab="<small style='color: green'>[已解决]</small>&nbsp;&nbsp;";
+                            }
+
+                    var $con="<h3 style='margin-left: 80px; display:flex;'>"+$ab+data.name+"</h3>\n" +
+                        "<div style='color: black;padding-top: 15px; width: 100px; display: flex'></div>"+
+                        "<p style='color: black ;margin-left: 80px; display: flex'>"+data.description+"</p></div>"+
                         "                <div class=\"page-header\">\n" +
                         // "                    "+data.comment+"条评论\n" +
                         "                </div>";
@@ -316,7 +343,9 @@
 
 
 
-
+            //
+            //     }
+            // })
                 }
             })
         }
@@ -400,7 +429,7 @@
 
 
                         <div class="input-group" id="go">
-                            <span class="input-group-addon" id="pageTotal">ee</span>
+                            <span class="input-group-addon" id="pageTotal"> </span>
                             <input type="text" style="width: 60px" class="form-control" id="goto">
 
                             <button class="btn btn-default" type="button" id="gg">Go!</button>

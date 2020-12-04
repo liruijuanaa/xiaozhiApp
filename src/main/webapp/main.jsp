@@ -219,16 +219,17 @@
                             <%--        console.log(userData);--%>
                             <%--        console.log(userData.username);--%>
                             <%--        user=userData.username;--%>
-                            <%--        var $ab=--%>
-                            <%--            "<small style='color: red'>[求助]</small>&nbsp;&nbsp;";--%>
-                            <%--        if (topic.status==1){--%>
-                            <%--            $ab="<small style='color: green'>[已解决]</small>&nbsp;&nbsp;";--%>
-                            <%--        }--%>
+                                    var $ab=
+                                        "<small style='color: red'>[求助]</small>&nbsp;&nbsp;";
+                                    if (topic.status==1){
+                                        $ab="<small style='color: green'>[已解决]</small>&nbsp;&nbsp;";
+                                    }
                             <%--       --%>
                             <%--    }--%>
                             <%--})--%>
                             var $tr=
                                 " <tr><td class=\"new\"><a target=\"_blank\" href=\"${path}/commen.jsp?id="+topic.id+"&name="+category_id+"\"><span class=\"glyphicon glyphicon-credit-card\"></span></a></td>" +
+                                "<td>"+$ab+"</td>"+
                                 "<td class=\"common\"><a href=\"${path}/commen.jsp?id="+topic.id+"&name="+category_id+"\">"+topic.description+"</a></td>"+
                                 // "<td class=\"by\">"+userData.username+"</td>"+
                                 <%--"<td class=\"num\"><a href=\"${path}/commen.jsp?id="+topic.id+"\"><span class=\"glyphicon glyphicon-comment\"></span>&nbsp;"+topic.comment+"</a></td>"+--%>
@@ -292,10 +293,15 @@
                         //
                         //请求成功时执行该函数内容，result即为服务器返回的json对象
                         $.each(ss,function (index,topic){
-
+                            var $ab=
+                                "<small style='color: red'>[求助]</small>&nbsp;&nbsp;";
+                            if (topic.status==1){
+                                $ab="<small style='color: green'>[已解决]</small>&nbsp;&nbsp;";
+                            }
                             var user;
                             var $tr=
                                 " <tr><td class=\"new\"><a target=\"_blank\" href=\"${path}/commen.jsp?id="+topic.id+"&name="+category_id+"\"><span class=\"glyphicon glyphicon-credit-card\"></span></a></td>" +
+                                "<td>"+$ab+"</td>"+
                                 "<td class=\"common\"><a href=\"${path}/commen.jsp?id="+topic.id+"&name="+category_id+"\">"+topic.description+"</a></td>"+
                                 // "<td class=\"by\">"+userData.username+"</td>"+
                                 <%--"<td class=\"num\"><a href=\"${path}/commen.jsp?id="+topic.id+"\"><span class=\"glyphicon glyphicon-comment\"></span>&nbsp;"+topic.comment+"</a></td>"+--%>
@@ -360,10 +366,15 @@
                         //
                         //请求成功时执行该函数内容，result即为服务器返回的json对象
                         $.each(ss,function (index,topic){
-
+                            var $ab=
+                                "<small style='color: red'>[求助]</small>&nbsp;&nbsp;";
+                            if (topic.status==1){
+                                $ab="<small style='color: green'>[已解决]</small>&nbsp;&nbsp;";
+                            }
                             var user;
                             var $tr=
                                 " <tr><td class=\"new\"><a target=\"_blank\" href=\"${path}/commen.jsp?id="+topic.id+"&name="+category_id+"\"><span class=\"glyphicon glyphicon-credit-card\"></span></a></td>" +
+                                "<td>"+$ab+"</td>"+
                                 "<td class=\"common\"><a href=\"${path}/commen.jsp?id="+topic.id+"&name="+category_id+"\">"+topic.description+"</a></td>"+
                                 // "<td class=\"by\">"+userData.username+"</td>"+
                                 <%--"<td class=\"num\"><a href=\"${path}/commen.jsp?id="+topic.id+"\"><span class=\"glyphicon glyphicon-comment\"></span>&nbsp;"+topic.comment+"</a></td>"+--%>
@@ -476,7 +487,7 @@
 
 
                     <div class="input-group" id="go">
-                        <span class="input-group-addon" id="pageTotal">ee</span>
+                        <span class="input-group-addon" id="pageTotal"> </span>
                         <input type="text" style="width: 60px" class="form-control" id="goto">
 
                         <button class="btn btn-default" type="button" id="gg">Go!</button>
