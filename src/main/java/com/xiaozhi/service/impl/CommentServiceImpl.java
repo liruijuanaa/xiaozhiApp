@@ -74,6 +74,7 @@ public class CommentServiceImpl implements CommentService {
         return map;
     }
 
+    //查询总条数
     @Override
     public int queryNum() {
         return this.commentDao.queryNum();
@@ -91,6 +92,7 @@ public class CommentServiceImpl implements CommentService {
         return i;
     }
 
+    //查询最新评论
     @Override
     public int selectLast() {
         return this.commentDao.selectLast();
@@ -124,11 +126,13 @@ public class CommentServiceImpl implements CommentService {
         return false;
     }
 
+    //根据话题ID查询话题下的总评论数目
     @Override
     public int queryComNum(int id) {
         return this.commentDao.queryComNum(id);
     }
 
+    //查询评论信息并分页
     @Override
     public Map<String, Object> queryComment(int id,int page) {
 
@@ -165,11 +169,13 @@ public class CommentServiceImpl implements CommentService {
         return this.commentDao.queryCom();
     }
 
+    //添加评论
     @Override
     public int addComm(CommentVO commentVO) {
         return this.commentDao.addComm(commentVO);
     }
 
+    //根据话题ID查询话题的发布者
     @Override
     public String  queryByuserID(int topic_id) {
         int user_id = this.commentDao.queryByuserID(topic_id);
@@ -182,6 +188,7 @@ public class CommentServiceImpl implements CommentService {
 
     }
 
+    //根据话题ID查询话题的发布者
     @Override
     public String queryByName(int topic_id) {
         int user_id = this.commentDao.queryByName(topic_id);
