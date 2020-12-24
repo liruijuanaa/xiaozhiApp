@@ -43,7 +43,7 @@ public class CategoryController {
     public List<Subsystem> queryAll(){
         return this.categoryService.queryAll();
     }
-
+    //查询二级类别
     @RequestMapping("queryTwoCategory")
     public List<Subsystem> queryTwoCategory(String category_id){
         System.out.println("类别ID"+category_id);
@@ -55,13 +55,13 @@ public class CategoryController {
         System.out.println("类别ID"+category_id);
         return this.categoryService.queryTwoCategory2(category_id);
     }
-
+    //查询类别并分页
     @RequestMapping("queryTwoCategoryFenye")
     public Map<String ,Object> queryTwoCategoryFenye(String category_id, int page){
         System.out.println(page);
         return this.categoryService.queryTwoCategoryFenye(category_id, page);
     }
-
+    //根据选择的类别展示
     @RequestMapping("queryRequest")
     public Map<String ,Object> queryRequest(int id, int page,int sys_level){
         System.out.println(page);
